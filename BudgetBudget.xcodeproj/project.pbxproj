@@ -10,14 +10,14 @@
 		2F2F5404288C4798006E2FDE /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5403288C4798006E2FDE /* SplashView.swift */; };
 		2F2F5406288C48B2006E2FDE /* VisualEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5405288C48B2006E2FDE /* VisualEffect.swift */; };
 		2F2F5409288C507A006E2FDE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F540B288C507A006E2FDE /* Localizable.strings */; };
+		2F2F5411288CA145006E2FDE /* exportTransactions.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F540D288CA145006E2FDE /* exportTransactions.scpt */; platformFilters = (macos, ); };
+		2F2F5412288CA145006E2FDE /* exportCategories.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F540E288CA145006E2FDE /* exportCategories.scpt */; platformFilters = (macos, ); };
+		2F2F5413288CA145006E2FDE /* moneymoneyExists.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F540F288CA145006E2FDE /* moneymoneyExists.scpt */; platformFilters = (macos, ); };
+		2F2F5414288CA145006E2FDE /* exportAccounts.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F5410288CA145006E2FDE /* exportAccounts.scpt */; platformFilters = (macos, ); };
 		2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */; };
 		2F7610C2288481E5005D4183 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610C1288481E5005D4183 /* ContentView.swift */; };
 		2F7610C4288481E7005D4183 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F7610C3288481E7005D4183 /* Assets.xcassets */; };
 		2F7610C7288481E7005D4183 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F7610C6288481E7005D4183 /* Preview Assets.xcassets */; };
-		2F7610D22884836C005D4183 /* moneymoneyExists.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610CE2884836C005D4183 /* moneymoneyExists.applescript */; };
-		2F7610D32884836C005D4183 /* exportAccounts.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610CF2884836C005D4183 /* exportAccounts.applescript */; };
-		2F7610D42884836C005D4183 /* exportCategories.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610D02884836C005D4183 /* exportCategories.applescript */; };
-		2F7610D52884836C005D4183 /* exportTransactions.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610D12884836C005D4183 /* exportTransactions.applescript */; };
 		2F76110928849658005D4183 /* MoneyMoney.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76110828849658005D4183 /* MoneyMoney.swift */; };
 		2F76110F2884A0C5005D4183 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76110E2884A0C5005D4183 /* Account.swift */; };
 		2F7611132884AB81005D4183 /* Image+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7611122884AB81005D4183 /* Image+Data.swift */; };
@@ -30,6 +30,10 @@
 		2F2F5405288C48B2006E2FDE /* VisualEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffect.swift; sourceTree = "<group>"; };
 		2F2F540A288C507A006E2FDE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2F2F540C288C50B4006E2FDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2F2F540D288CA145006E2FDE /* exportTransactions.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = exportTransactions.scpt; sourceTree = "<group>"; };
+		2F2F540E288CA145006E2FDE /* exportCategories.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = exportCategories.scpt; sourceTree = "<group>"; };
+		2F2F540F288CA145006E2FDE /* moneymoneyExists.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = moneymoneyExists.scpt; sourceTree = "<group>"; };
+		2F2F5410288CA145006E2FDE /* exportAccounts.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = exportAccounts.scpt; sourceTree = "<group>"; };
 		2F7610BC288481E5005D4183 /* BudgetBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BudgetBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetBudgetApp.swift; sourceTree = "<group>"; };
 		2F7610C1288481E5005D4183 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -99,6 +103,10 @@
 		2F7610CD28848345005D4183 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
+				2F2F5410288CA145006E2FDE /* exportAccounts.scpt */,
+				2F2F540E288CA145006E2FDE /* exportCategories.scpt */,
+				2F2F540D288CA145006E2FDE /* exportTransactions.scpt */,
+				2F2F540F288CA145006E2FDE /* moneymoneyExists.scpt */,
 				2F7610CF2884836C005D4183 /* exportAccounts.applescript */,
 				2F7610D02884836C005D4183 /* exportCategories.applescript */,
 				2F7610D12884836C005D4183 /* exportTransactions.applescript */,
@@ -195,6 +203,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F2F5411288CA145006E2FDE /* exportTransactions.scpt in Resources */,
+				2F2F5412288CA145006E2FDE /* exportCategories.scpt in Resources */,
+				2F2F5413288CA145006E2FDE /* moneymoneyExists.scpt in Resources */,
+				2F2F5414288CA145006E2FDE /* exportAccounts.scpt in Resources */,
 				2F7610C7288481E7005D4183 /* Preview Assets.xcassets in Resources */,
 				2F2F5409288C507A006E2FDE /* Localizable.strings in Resources */,
 				2F7610C4288481E7005D4183 /* Assets.xcassets in Resources */,
@@ -208,16 +220,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F7610D22884836C005D4183 /* moneymoneyExists.applescript in Sources */,
 				2F2F5406288C48B2006E2FDE /* VisualEffect.swift in Sources */,
-				2F7610D32884836C005D4183 /* exportAccounts.applescript in Sources */,
-				2F7610D52884836C005D4183 /* exportTransactions.applescript in Sources */,
 				2F7610C2288481E5005D4183 /* ContentView.swift in Sources */,
 				2F76110928849658005D4183 /* MoneyMoney.swift in Sources */,
 				2F2F5404288C4798006E2FDE /* SplashView.swift in Sources */,
 				2F76110F2884A0C5005D4183 /* Account.swift in Sources */,
 				2F7611132884AB81005D4183 /* Image+Data.swift in Sources */,
-				2F7610D42884836C005D4183 /* exportCategories.applescript in Sources */,
 				2F7611172885B843005D4183 /* Hierarchy.swift in Sources */,
 				2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */,
 				2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */,
@@ -358,26 +366,31 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BudgetBudget/Preview Content\"";
 				DEVELOPMENT_TEAM = 6A7V3CGW4J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BudgetBudget;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "BudgetBudget requires access to MoneyMoney in order to be able to import data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.l30.BudgetBudget;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = app.budgetbudget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -392,26 +405,31 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BudgetBudget/Preview Content\"";
 				DEVELOPMENT_TEAM = 6A7V3CGW4J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BudgetBudget;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "BudgetBudget requires access to MoneyMoney in order to be able to import data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.l30.BudgetBudget;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = app.budgetbudget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
