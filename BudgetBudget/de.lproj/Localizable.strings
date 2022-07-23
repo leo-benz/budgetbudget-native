@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  BudgetBudget
+
+  Created by Leo Benz on 23.07.22.
+  
+*/
+
+"splash-welcome" = "Willkommen bei BudgetBudget";
+"splash-description" = "envelope-style Budgetierung für deine MoneyMoney Transaktionen";
+"splash-unusable" = "Diese App ist in Entwicklung und noch nicht benutzbar.\nBitte schaue später nochmal vorbei.";
