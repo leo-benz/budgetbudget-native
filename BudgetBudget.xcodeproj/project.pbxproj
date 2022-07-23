@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F2F5404288C4798006E2FDE /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5403288C4798006E2FDE /* SplashView.swift */; };
+		2F2F5406288C48B2006E2FDE /* VisualEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5405288C48B2006E2FDE /* VisualEffect.swift */; };
 		2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */; };
 		2F7610C2288481E5005D4183 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610C1288481E5005D4183 /* ContentView.swift */; };
 		2F7610C4288481E7005D4183 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F7610C3288481E7005D4183 /* Assets.xcassets */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F2F5403288C4798006E2FDE /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		2F2F5405288C48B2006E2FDE /* VisualEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffect.swift; sourceTree = "<group>"; };
 		2F7610BC288481E5005D4183 /* BudgetBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BudgetBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetBudgetApp.swift; sourceTree = "<group>"; };
 		2F7610C1288481E5005D4183 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 			children = (
 				2F76111B2885D2CA005D4183 /* AccountList.swift */,
 				2F7610C1288481E5005D4183 /* ContentView.swift */,
+				2F2F5403288C4798006E2FDE /* SplashView.swift */,
+				2F2F5405288C48B2006E2FDE /* VisualEffect.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -197,10 +203,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F7610D22884836C005D4183 /* moneymoneyExists.applescript in Sources */,
+				2F2F5406288C48B2006E2FDE /* VisualEffect.swift in Sources */,
 				2F7610D32884836C005D4183 /* exportAccounts.applescript in Sources */,
 				2F7610D52884836C005D4183 /* exportTransactions.applescript in Sources */,
 				2F7610C2288481E5005D4183 /* ContentView.swift in Sources */,
 				2F76110928849658005D4183 /* MoneyMoney.swift in Sources */,
+				2F2F5404288C4798006E2FDE /* SplashView.swift in Sources */,
 				2F76110F2884A0C5005D4183 /* Account.swift in Sources */,
 				2F7611132884AB81005D4183 /* Image+Data.swift in Sources */,
 				2F7610D42884836C005D4183 /* exportCategories.applescript in Sources */,
