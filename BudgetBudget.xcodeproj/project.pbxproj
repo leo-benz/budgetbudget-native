@@ -35,6 +35,7 @@
 		2F2F540F288CA145006E2FDE /* moneymoneyExists.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = moneymoneyExists.scpt; sourceTree = "<group>"; };
 		2F2F5410288CA145006E2FDE /* exportAccounts.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = exportAccounts.scpt; sourceTree = "<group>"; };
 		2F2F5415288CAAEF006E2FDE /* BudgetBudget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BudgetBudget.entitlements; sourceTree = "<group>"; };
+		2F2F5416288CB122006E2FDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2F7610BC288481E5005D4183 /* BudgetBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BudgetBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetBudgetApp.swift; sourceTree = "<group>"; };
 		2F7610C1288481E5005D4183 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		2F7610BE288481E5005D4183 /* BudgetBudget */ = {
 			isa = PBXGroup;
 			children = (
+				2F2F5416288CB122006E2FDE /* Info.plist */,
 				2F2F5415288CAAEF006E2FDE /* BudgetBudget.entitlements */,
 				2F2F540B288C507A006E2FDE /* Localizable.strings */,
 				2F76111A2885D29B005D4183 /* View */,
@@ -378,8 +380,7 @@
 				DEVELOPMENT_TEAM = 6A7V3CGW4J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = BudgetBudget;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_FILE = BudgetBudget/Info.plist;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "BudgetBudget requires access to MoneyMoney in order to be able to import data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -418,8 +419,7 @@
 				DEVELOPMENT_TEAM = 6A7V3CGW4J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = BudgetBudget;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_FILE = BudgetBudget/Info.plist;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "BudgetBudget requires access to MoneyMoney in order to be able to import data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
