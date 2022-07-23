@@ -381,6 +381,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BudgetBudget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BudgetBudget;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "BudgetBudget requires access to MoneyMoney in order to be able to import data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -420,6 +422,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BudgetBudget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BudgetBudget;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "BudgetBudget requires access to MoneyMoney in order to be able to import data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
