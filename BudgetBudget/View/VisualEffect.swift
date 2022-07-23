@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if os(OSX)
 struct VisualEffect: NSViewRepresentable {
     let material: NSVisualEffectView.Material
     let blendingMode: NSVisualEffectView.BlendingMode
@@ -19,3 +20,10 @@ struct VisualEffect: NSViewRepresentable {
     }
     func updateNSView(_ nsView: NSView, context: Context) {}
 }
+#else
+struct VisualEffect: View {
+    var body: some View {
+        EmptyView()
+    }
+}
+#endif

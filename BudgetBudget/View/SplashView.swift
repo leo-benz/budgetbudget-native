@@ -11,23 +11,26 @@ struct SplashView: View {
     var body: some View {
         ZStack {
             VStack {
-                Text("Welcome to BudgetBudget")
+                Text("splash-welcome")
                     .font(.largeTitle)
-                Text("envelope-style budgeting for your MoneyMoney transactions")
+                Text("splash-description")
                     .font(.title3)
                     .italic()
                 Divider().padding([.top, .bottom])
-                Text("This app is under development and not usable yet.\nPlease check back later.")
-                    .multilineTextAlignment(.center)
-            }
+                Text("splash-unusable")
+                    
+            }.multilineTextAlignment(.center)
         }
         .frame(minWidth: 300, minHeight: 300)
+        #if os(macOS)
         .background(VisualEffect(material: .underWindowBackground, blendingMode: .behindWindow))
+        #endif
     }
 }
 
 struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
         SplashView()
+        SplashView().environment(\.locale, .init(identifier: "fr"))
     }
 }

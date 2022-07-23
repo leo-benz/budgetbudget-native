@@ -30,7 +30,7 @@ class MoneyMoney: ObservableObject {
             fatalError("Unable to decode accounts:\(error)")
         }
 #else
-        return []
+        accounts = []
 #endif
     }
     
