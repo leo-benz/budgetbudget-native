@@ -14,6 +14,7 @@
 		2F2F5412288CA145006E2FDE /* exportCategories.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F540E288CA145006E2FDE /* exportCategories.scpt */; platformFilters = (macos, ); };
 		2F2F5413288CA145006E2FDE /* moneymoneyExists.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F540F288CA145006E2FDE /* moneymoneyExists.scpt */; platformFilters = (macos, ); };
 		2F2F5414288CA145006E2FDE /* exportAccounts.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F5410288CA145006E2FDE /* exportAccounts.scpt */; platformFilters = (macos, ); };
+		2F3DB1AF288D5C30007B360C /* MonthSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3DB1AE288D5C30007B360C /* MonthSelectorView.swift */; };
 		2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */; };
 		2F7610C2288481E5005D4183 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610C1288481E5005D4183 /* ContentView.swift */; };
 		2F7610C4288481E7005D4183 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F7610C3288481E7005D4183 /* Assets.xcassets */; };
@@ -36,6 +37,7 @@
 		2F2F5410288CA145006E2FDE /* exportAccounts.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = exportAccounts.scpt; sourceTree = "<group>"; };
 		2F2F5415288CAAEF006E2FDE /* BudgetBudget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BudgetBudget.entitlements; sourceTree = "<group>"; };
 		2F2F5416288CB122006E2FDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2F3DB1AE288D5C30007B360C /* MonthSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSelectorView.swift; sourceTree = "<group>"; };
 		2F7610BC288481E5005D4183 /* BudgetBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BudgetBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetBudgetApp.swift; sourceTree = "<group>"; };
 		2F7610C1288481E5005D4183 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				2F7610C1288481E5005D4183 /* ContentView.swift */,
 				2F2F5403288C4798006E2FDE /* SplashView.swift */,
 				2F2F5405288C48B2006E2FDE /* VisualEffect.swift */,
+				2F3DB1AE288D5C30007B360C /* MonthSelectorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F3DB1AF288D5C30007B360C /* MonthSelectorView.swift in Sources */,
 				2F2F5406288C48B2006E2FDE /* VisualEffect.swift in Sources */,
 				2F7610C2288481E5005D4183 /* ContentView.swift in Sources */,
 				2F76110928849658005D4183 /* MoneyMoney.swift in Sources */,
