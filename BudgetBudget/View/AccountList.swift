@@ -10,12 +10,12 @@ import SwiftUI
 /// Hierarchical view representing a list of accounts
 struct AccountList: View {
     /// List of root level accounts to show in the list
-    var accounts: [Account]
+    var accounts: [Account]?
     /// If true show a checkbox to be able to select accounts
     var isSelectable = false
     
     var body: some View {
-        List(accounts, children: \.children) {
+        List(accounts ?? [], children: \.children) {
             AccountRow(account: $0, isSelectable: isSelectable)
         }.listStyle(.sidebar)
     }

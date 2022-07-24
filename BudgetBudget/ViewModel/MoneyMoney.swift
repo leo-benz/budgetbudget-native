@@ -17,9 +17,13 @@ class MoneyMoney: ObservableObject {
 #endif
     }
     
-    @Published public var accounts: [Account]!
+    @Published public var accounts: [Account]?
     
     init() {
+
+    }
+
+    public func sync() {
 #if os(OSX)
         let accountsXML = executeAppleScript("exportAccounts").stringValue ?? ""
         let decoder = PropertyListDecoder()

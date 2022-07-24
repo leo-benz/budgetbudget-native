@@ -9,10 +9,18 @@ import SwiftUI
 
 @main
 struct BudgetBudgetApp: App {
+    @StateObject var moneymoney = MoneyMoney()
+
     var body: some Scene {
         WindowGroup {
-//            SplashView()
-            ContentView()
+            // SplashView()
+            ContentView(moneymoney: moneymoney).onAppear {
+                moneymoney.sync()
+            }
+        }.windowStyle(.titleBar)
+            .windowToolbarStyle(.unifiedCompact)
+
         }
     }
 }
+
