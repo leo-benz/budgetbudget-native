@@ -24,6 +24,7 @@
 		2F7611132884AB81005D4183 /* Image+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7611122884AB81005D4183 /* Image+Data.swift */; };
 		2F7611172885B843005D4183 /* Hierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7611162885B843005D4183 /* Hierarchy.swift */; };
 		2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76111B2885D2CA005D4183 /* AccountList.swift */; };
+		2F7611202886FADE005D4183 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76111F2886FADE005D4183 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		2F7611122884AB81005D4183 /* Image+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Data.swift"; sourceTree = "<group>"; };
 		2F7611162885B843005D4183 /* Hierarchy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hierarchy.swift; sourceTree = "<group>"; };
 		2F76111B2885D2CA005D4183 /* AccountList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountList.swift; sourceTree = "<group>"; };
+		2F76111F2886FADE005D4183 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 		2F76111A2885D29B005D4183 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2F76111F2886FADE005D4183 /* SettingsView.swift */,
 				2F76111B2885D2CA005D4183 /* AccountList.swift */,
 				2F7610C1288481E5005D4183 /* ContentView.swift */,
 				2F2F5403288C4798006E2FDE /* SplashView.swift */,
@@ -235,6 +238,7 @@
 				2F76110F2884A0C5005D4183 /* Account.swift in Sources */,
 				2F7611132884AB81005D4183 /* Image+Data.swift in Sources */,
 				2F7611172885B843005D4183 /* Hierarchy.swift in Sources */,
+				2F7611202886FADE005D4183 /* SettingsView.swift in Sources */,
 				2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */,
 				2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */,
 			);

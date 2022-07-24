@@ -20,7 +20,11 @@ struct BudgetBudgetApp: App {
         }.windowStyle(.titleBar)
             .windowToolbarStyle(.unifiedCompact)
 
+#if os(macOS)
+        Settings {
+            SettingsView(moneymoney: moneymoney)
         }
+#endif
     }
 }
 
