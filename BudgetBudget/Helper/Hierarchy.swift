@@ -11,7 +11,6 @@ import Foundation
 protocol HierarchyElement<Element>: Decodable, AnyObject {
     associatedtype Element
 
-
         /// The indentation level of this element
     var indentation: Int { get }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F070CBD288EEFA5000219EE /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F070CBC288EEFA5000219EE /* Category.swift */; };
+		2F070CC1288EF919000219EE /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F070CC0288EF919000219EE /* CategoryList.swift */; };
 		2F2F5404288C4798006E2FDE /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5403288C4798006E2FDE /* SplashView.swift */; };
 		2F2F5406288C48B2006E2FDE /* VisualEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5405288C48B2006E2FDE /* VisualEffect.swift */; };
 		2F2F5409288C507A006E2FDE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F540B288C507A006E2FDE /* Localizable.strings */; };
@@ -28,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F070CBC288EEFA5000219EE /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		2F070CC0288EF919000219EE /* CategoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryList.swift; sourceTree = "<group>"; };
 		2F2F5403288C4798006E2FDE /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		2F2F5405288C48B2006E2FDE /* VisualEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffect.swift; sourceTree = "<group>"; };
 		2F2F540A288C507A006E2FDE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -128,6 +132,7 @@
 			children = (
 				2F76111F2886FADE005D4183 /* SettingsView.swift */,
 				2F76111B2885D2CA005D4183 /* AccountList.swift */,
+				2F070CC0288EF919000219EE /* CategoryList.swift */,
 				2F7610C1288481E5005D4183 /* ContentView.swift */,
 				2F2F5403288C4798006E2FDE /* SplashView.swift */,
 				2F2F5405288C48B2006E2FDE /* VisualEffect.swift */,
@@ -139,6 +144,7 @@
 		2F76111D2885D326005D4183 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				2F070CBC288EEFA5000219EE /* Category.swift */,
 				2F76110828849658005D4183 /* MoneyMoney.swift */,
 				2F76110E2884A0C5005D4183 /* Account.swift */,
 			);
@@ -239,8 +245,10 @@
 				2F7611132884AB81005D4183 /* Image+Data.swift in Sources */,
 				2F7611172885B843005D4183 /* Hierarchy.swift in Sources */,
 				2F7611202886FADE005D4183 /* SettingsView.swift in Sources */,
+				2F070CC1288EF919000219EE /* CategoryList.swift in Sources */,
 				2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */,
 				2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */,
+				2F070CBD288EEFA5000219EE /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

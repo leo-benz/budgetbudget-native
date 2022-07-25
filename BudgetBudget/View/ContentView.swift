@@ -14,7 +14,8 @@ struct ContentView: View {
     @State var selectedDate: String?
     
     var body: some View {
-        AccountList(accounts: moneymoney.accounts, isSelectable: true)
+        CategoryList(categories: moneymoney.filteredCategories)
+            .listStyle(.sidebar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     MonthSelectorView(scrollTarget: $selectedDate)

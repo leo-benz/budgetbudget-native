@@ -18,7 +18,13 @@ class MoneyMoney: ObservableObject {
     }
     
     @Published public var accounts: [Account]?
-    
+    @Published public var categories: [Category]?
+    public var filteredCategories: [Category]? {
+        categories?.filter {
+            !$0.isDefault && !$0.isIncome
+        }
+    }
+
     init() {
 
     }
@@ -28,11 +34,19 @@ class MoneyMoney: ObservableObject {
         let accountsXML = executeAppleScript("exportAccounts").stringValue ?? ""
         let decoder = PropertyListDecoder()
         do {
-            let decoded = try decoder.decode(Hierarchy<Account>.self, from: accountsXML.data(using: .utf8)!)
-            accounts = decoded.rootElements
+            let decodedAccounts = try decoder.decode(Hierarchy<Account>.self, from: accountsXML.data(using: .utf8)!)
+            accounts = decodedAccounts.rootElements
         } catch {
-            fatalError("Unable to decode accounts:\(error)")
+            fatalError("Unable to decode accounts: \(error)")
         }
+        let categoriesXML = executeAppleScript("exportCategories").stringValue ?? ""
+        do {
+            let decodedCategories = try decoder.decode(Hierarchy<Category>.self, from: categoriesXML.data(using: .utf8)!)
+            categories = decodedCategories.rootElements
+        } catch {
+            fatalError("Unable to decode categories: \(error)")
+        }
+
 #else
         accounts = []
 #endif

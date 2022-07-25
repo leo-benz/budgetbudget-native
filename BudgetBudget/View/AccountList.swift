@@ -17,7 +17,7 @@ struct AccountList: View {
     var body: some View {
         List(accounts ?? [], children: \.children) {
             AccountRow(account: $0, isSelectable: isSelectable)
-        }.listStyle(.sidebar)
+        }
     }
     
     struct AccountRow: View {
