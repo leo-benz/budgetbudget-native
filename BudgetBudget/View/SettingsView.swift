@@ -49,9 +49,11 @@ struct SettingsView: View {
                 if #available(macOS 13.0, *) {
                     LabeledContent("Tracked Accounts") {
                         AccountList(accounts: moneymoney.accounts, isSelectable: true)
+                            .listStyle(.bordered)
                     }
                 } else {
                     AccountList(accounts: moneymoney.accounts, isSelectable: true)
+                        .listStyle(.bordered)
                 }
             }.tabItem {
                 Label("Accounts", systemImage: "building.columns")

@@ -1,14 +1,16 @@
-    //
-    //  Account.swift
-    //  BudgetBudget
-    //
-    //  Created by Leo Benz on 17.07.22.
-    //
+//
+//  Account.swift
+//  BudgetBudget
+//
+//  Created by Leo Benz on 17.07.22.
+//
 
 import Foundation
 import SwiftUI
 
 class Account: ObservableObject, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
+    typealias Element = Account
+
     static func == (lhs: Account, rhs: Account) -> Bool {
         lhs.id == rhs.id
     }
@@ -41,7 +43,7 @@ class Account: ObservableObject, HierarchyElement, Hashable, Identifiable, Custo
         name
     }
     
-        // Custom Properties
+    // Custom Properties
     private (set) var children: [Account]?
     @Published var isSelected = false
     
@@ -52,7 +54,7 @@ class Account: ObservableObject, HierarchyElement, Hashable, Identifiable, Custo
         children!.append(child)
     }
     
-        // From MoneyMoney
+    // From MoneyMoney
     let name: String
     let indentation: Int
     let id: UUID
@@ -79,21 +81,5 @@ class Account: ObservableObject, HierarchyElement, Hashable, Identifiable, Custo
         case attributes
         case accountNumber
         case balance
-    }
-    
-    required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.name = try container.decode(String.self, forKey: .name)
-        self.indentation = try container.decode(Int.self, forKey: .indentation)
-        self.id = try container.decode(UUID.self, forKey: .id)
-        self.isPortfolio = try container.decode(Bool.self, forKey: .isPortfolio)
-        self.owner = try container.decode(String.self, forKey: .owner)
-        self.icon = try container.decode(Data.self, forKey: .icon)
-        self.isGroup = try container.decode(Bool.self, forKey: .isGroup)
-        self.currency = try container.decode(String.self, forKey: .currency)
-        self.bankCode = try container.decode(String.self, forKey: .bankCode)
-        self.attributes = try container.decode([String : String].self, forKey: .attributes)
-        self.accountNumber = try container.decode(String.self, forKey: .accountNumber)
-        self.balance = try container.decode([Account.Money].self, forKey: .balance)
     }
 }
