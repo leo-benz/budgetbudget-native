@@ -11,12 +11,10 @@ struct BudgetColumn: View {
     @State private var budgeted: Double = 3.5
 
     var body: some View {
-        VStack(spacing: 5) {
-            BudgetRow(budgeted: $budgeted)
-            BudgetRow(budgeted: $budgeted)
-            BudgetRow(budgeted: $budgeted)
-            BudgetRow(budgeted: $budgeted)
-            BudgetRow(budgeted: $budgeted)
+        VStack {
+            ForEach(0..<100) {_ in
+                BudgetRow(budgeted: $budgeted)
+            }
         }
     }
 
@@ -47,7 +45,6 @@ struct BudgetColumn: View {
 struct BudgetColumn_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            BudgetHeader()
             BudgetColumn()
         }.frame(width: 300)
     }
