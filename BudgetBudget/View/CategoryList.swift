@@ -11,8 +11,13 @@ struct CategoryList: View {
     var categories: [Category]?
 
     var body: some View {
-        List(categories ?? [], children: \.children) {
-            CategoryRowContent(category: $0)
+        if let categories = categories {
+            VStack {
+                ForEach(categories) {
+                    CategoryRow(category: $0)
+                }
+                Spacer()
+            }
         }
     }
 
@@ -26,13 +31,45 @@ struct CategoryList: View {
                 }
                 Text(category.name)
                     .font(category.isGroup ? .caption.weight(.bold) : .body)
+                Spacer()
+            }.padding([.leading], CGFloat(category.indentation) * 15)
+        }
+    }
+
+    struct CategoryRow: View {
+        @ObservedObject var category: Category
+
+        var body: some View {
+            if category.isGroup {
+                CategoryGroup(category: category)
+            } else {
+                CategoryRowContent(category: category)
+            }
+        }
+    }
+
+    struct CategoryGroup: View {
+        @ObservedObject var category: Category
+
+        var body: some View {
+            DisclosureGroup {
+                ForEach(category.children!) {
+                    CategoryRow(category: $0)
+                }
+            } label: {
+                CategoryRowContent(category: category)
             }
         }
     }
 }
 
+
 struct CategoryList_Previews: PreviewProvider {
+    static var moneymoney = MoneyMoney()
+
     static var previews: some View {
-        CategoryList()
+        CategoryList(categories: moneymoney.categories).onAppear {
+            moneymoney.sync()
+        }.frame(width: 300, height: 500)
     }
 }
