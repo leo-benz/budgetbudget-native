@@ -33,15 +33,15 @@ struct BudgetHeader: View {
                 VStack(alignment: .trailing) {
                     Text("Budgeted").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing).foregroundColor(.secondary)
                     Text("3000,00").font(.headline.monospaced())
-                }.border(.red)
+                }
                 VStack(alignment: .trailing) {
                     Text("Spend").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing).foregroundColor(.secondary)
                     Text("-2500,00").font(.headline.monospaced())
-                }.border(.red)
+                }
                 VStack(alignment: .trailing) {
                     Text("Balance").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing).foregroundColor(.secondary)
                     Text("30000,00").font(.headline.monospaced())
-                }.border(.red)
+                }
             }
         }
     }
