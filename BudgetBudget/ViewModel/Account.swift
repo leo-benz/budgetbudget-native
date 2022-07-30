@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class Account: ObservableObject, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
+class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
     typealias Element = Account
 
     static func == (lhs: Account, rhs: Account) -> Bool {
@@ -42,10 +42,19 @@ class Account: ObservableObject, HierarchyElement, Hashable, Identifiable, Custo
     var debugDescription: String {
         name
     }
-    
+
+    var moneymoney: MoneyMoney?
+
     // Custom Properties
     private (set) var children: [Account]?
-    @Published var isSelected = false
+
+    @Published var isSelected = false {
+        didSet {
+            if let moneymoney = moneymoney {
+                moneymoney.syncTransactions()
+            }
+        }
+    }
     
     func append(child: Account) {
         if children == nil {
@@ -81,5 +90,12 @@ class Account: ObservableObject, HierarchyElement, Hashable, Identifiable, Custo
         case attributes
         case accountNumber
         case balance
+    }
+}
+
+extension Account {
+    func recursiveForEach(_ callback: (Account) -> Void) {
+        callback(self)
+        children?.forEach{ $0.recursiveForEach(callback)}
     }
 }

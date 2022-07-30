@@ -23,11 +23,11 @@ protocol HierarchyElement<Element>: Decodable, AnyObject {
         ///  - child: The child to append
     func append(child: Element)
 }
-
     /// A data structure of recursive hiearachy elements of the same type with multiple root elements
 struct Hierarchy<T: HierarchyElement<T>>: Decodable {
     let rootElements: [T]
-    
+    var flatElements: [T] = []
+
     init(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
         var currentIndent = -1
@@ -36,6 +36,7 @@ struct Hierarchy<T: HierarchyElement<T>>: Decodable {
         
         while !container.isAtEnd {
             let element = try container.decode(T.self)
+            flatElements.append(element)
             if element.indentation == 0 {
                 rootElements.append(element)
             }

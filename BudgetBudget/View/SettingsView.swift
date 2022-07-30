@@ -58,7 +58,7 @@ struct SettingsView: View {
             }.tabItem {
                 Label("Accounts", systemImage: "building.columns")
             }.padding(20)
-        }.frame(minWidth: 350, minHeight: 150)
+        }.frame(minWidth: 350, minHeight: 350)
     }
 }
 

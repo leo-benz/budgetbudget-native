@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class Category: ObservableObject, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
+class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
     typealias Element = Category
 
     static func == (lhs: Category, rhs: Category) -> Bool {
@@ -36,6 +36,7 @@ class Category: ObservableObject, HierarchyElement, Hashable, Identifiable, Cust
 
     private (set) var children: [Category]?
     @Published var isSelected = false
+    @Published var transactions = [Transaction]()
 
     func append(child: Category) {
         if children == nil {
@@ -52,7 +53,8 @@ class Category: ObservableObject, HierarchyElement, Hashable, Identifiable, Cust
     let isDefault: Bool
     let budget: Category.Budget?
     let isGroup: Bool
-    let isIncome = false
+    var isIncome = false
+    var isCollapsed = false
 
     enum CodingKeys: String, CodingKey {
         case indentation

@@ -1,11 +1,15 @@
-    //
-    //  MoneyMoney.swift
-    //  BudgetBudget
-    //
-    //  Created by Leo Benz on 17.07.22.
-    //
+//
+//  MoneyMoney.swift
+//  BudgetBudget
+//
+//  Created by Leo Benz on 17.07.22.
+//
 
 import Foundation
+
+#if os(OSX)
+import Carbon
+#endif
 
 class MoneyMoney: ObservableObject {
     
@@ -18,7 +22,20 @@ class MoneyMoney: ObservableObject {
     }
     
     @Published public var accounts: [Account]?
+    @Published public var flatAccounts: [Account]? {
+        didSet {
+            if let flatAccounts = flatAccounts {
+                flatAccounts.forEach {
+                    $0.recursiveForEach {
+                        $0.moneymoney = self
+                    }
+                }
+            }
+        }
+    }
     @Published public var categories: [Category]?
+    @Published public var flatCategories: [Category]?
+
     public var filteredCategories: [Category]? {
         categories?.filter {
             !$0.isDefault && !$0.isIncome
@@ -36,6 +53,7 @@ class MoneyMoney: ObservableObject {
         do {
             let decodedAccounts = try decoder.decode(Hierarchy<Account>.self, from: accountsXML.data(using: .utf8)!)
             accounts = decodedAccounts.rootElements
+            flatAccounts = decodedAccounts.flatElements
         } catch {
             fatalError("Unable to decode accounts: \(error)")
         }
@@ -43,29 +61,83 @@ class MoneyMoney: ObservableObject {
         do {
             let decodedCategories = try decoder.decode(Hierarchy<Category>.self, from: categoriesXML.data(using: .utf8)!)
             categories = decodedCategories.rootElements
+            flatCategories = decodedCategories.flatElements
         } catch {
             fatalError("Unable to decode categories: \(error)")
         }
+        syncTransactions()
 
 #else
         accounts = []
 #endif
     }
-    
+
+    func syncTransactions() {
+#if os(OSX)
+        print("Sync Transactions")
+        let decoder = PropertyListDecoder()
+        let selectedAccounts = flatAccounts!.filter{
+            print("\($0.name): \($0.isSelected)")
+            return $0.isSelected
+        }
+        for account in selectedAccounts {
+            // TODO: Replace with start date defined in budget settings
+            let transactionsXML = executeAppleScript("exportTransactions", handler: "exportTransactions", parameters: [account.name, "2022-01-01"]).stringValue!
+            do {
+                let decodedTransactions = try decoder.decode(TransactionWrapper.self, from: transactionsXML.data(using: .utf8)!)
+                decodedTransactions.transactions.forEach { $0.moneymoney = self }
+            } catch {
+                fatalError("Unable to decode transactions: \(error)")
+            }
+        }
+#endif
+    }
+
 #if os(OSX)
     func executeAppleScript(_ name: String) -> NSAppleEventDescriptor {
-        if let installedCheckerURL = Bundle.main.url(forResource: name, withExtension: "scpt") {
-            if let installedCheckerScript = NSAppleScript(contentsOf: installedCheckerURL, error: nil) {
+        if let scriptURL = Bundle.main.url(forResource: name, withExtension: "scpt") {
+            if let script = NSAppleScript(contentsOf: scriptURL, error: nil) {
                 var errorInfo = NSDictionary()
                 let errorInfoPointer = AutoreleasingUnsafeMutablePointer<NSDictionary?>.init(&errorInfo)
-                let results = installedCheckerScript.executeAndReturnError(errorInfoPointer)
+                let results = script.executeAndReturnError(errorInfoPointer)
                 if errorInfo.count == 0 {
                     return results
                 } else {
                     fatalError("Error during execution of \(name).scpt: \(errorInfo.description)")
                 }
             } else {
-                fatalError("Could not create applescript from \(installedCheckerURL)")
+                fatalError("Could not create applescript from \(scriptURL)")
+            }
+        } else {
+            fatalError("Could not find \(name).scpt in main bundle")
+        }
+    }
+
+    func executeAppleScript(_ name: String, handler handlerString: String, parameters parameterStrings: [String]) -> NSAppleEventDescriptor {
+        if let scriptURL = Bundle.main.url(forResource: name, withExtension: "scpt") {
+            if let script = NSAppleScript(contentsOf: scriptURL, error: nil) {
+                var errorInfo = NSDictionary()
+                let errorInfoPointer = AutoreleasingUnsafeMutablePointer<NSDictionary?>.init(&errorInfo)
+                let handler = NSAppleEventDescriptor(string: handlerString)
+                let parameterDescriptors: [NSAppleEventDescriptor] = parameterStrings.map{NSAppleEventDescriptor(string: $0)}
+                let parameters = NSAppleEventDescriptor.list()
+                parameterDescriptors.forEach{parameters.insert($0, at:0)} // At 0 results in append (see documentation)
+                let event = NSAppleEventDescriptor(
+                    eventClass: AEEventClass(kASAppleScriptSuite),
+                    eventID: AEEventID(kASSubroutineEvent),
+                    targetDescriptor: nil,
+                    returnID: AEReturnID(kAutoGenerateReturnID),
+                    transactionID: AETransactionID(kAnyTransactionID))
+                event.setDescriptor(handler, forKeyword: AEKeyword(keyASSubroutineName))
+                event.setParam(parameters, forKeyword: AEKeyword(keyDirectObject))
+                let results = script.executeAppleEvent(event, error: errorInfoPointer)
+                if errorInfo.count == 0 {
+                    return results
+                } else {
+                    fatalError("Error during execution of \(name).scpt: \(errorInfo.description)")
+                }
+            } else {
+                fatalError("Could not create applescript from \(scriptURL)")
             }
         } else {
             fatalError("Could not find \(name).scpt in main bundle")
