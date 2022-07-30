@@ -12,6 +12,8 @@
 		2F070CC328918FAA000219EE /* BudgetColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F070CC228918FAA000219EE /* BudgetColumn.swift */; };
 		2F070CC528918FB0000219EE /* BudgetHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F070CC428918FB0000219EE /* BudgetHeader.swift */; };
 		2F070CC728919DC7000219EE /* BudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F070CC628919DC7000219EE /* BudgetView.swift */; };
+		2F070CC9289439A6000219EE /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F070CC8289439A6000219EE /* Budget.swift */; };
+		2F070CCB28943DF8000219EE /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F070CCA28943DF8000219EE /* Transaction.swift */; };
 		2F2F5404288C4798006E2FDE /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5403288C4798006E2FDE /* SplashView.swift */; };
 		2F2F5406288C48B2006E2FDE /* VisualEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5405288C48B2006E2FDE /* VisualEffect.swift */; };
 		2F2F5409288C507A006E2FDE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F540B288C507A006E2FDE /* Localizable.strings */; };
@@ -38,6 +40,8 @@
 		2F070CC228918FAA000219EE /* BudgetColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetColumn.swift; sourceTree = "<group>"; };
 		2F070CC428918FB0000219EE /* BudgetHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetHeader.swift; sourceTree = "<group>"; };
 		2F070CC628919DC7000219EE /* BudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetView.swift; sourceTree = "<group>"; };
+		2F070CC8289439A6000219EE /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
+		2F070CCA28943DF8000219EE /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		2F2F5403288C4798006E2FDE /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		2F2F5405288C48B2006E2FDE /* VisualEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffect.swift; sourceTree = "<group>"; };
 		2F2F540A288C507A006E2FDE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -153,6 +157,8 @@
 		2F76111D2885D326005D4183 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				2F070CCA28943DF8000219EE /* Transaction.swift */,
+				2F070CC8289439A6000219EE /* Budget.swift */,
 				2F070CBC288EEFA5000219EE /* Category.swift */,
 				2F76110828849658005D4183 /* MoneyMoney.swift */,
 				2F76110E2884A0C5005D4183 /* Account.swift */,
@@ -253,9 +259,11 @@
 				2F070CC328918FAA000219EE /* BudgetColumn.swift in Sources */,
 				2F2F5404288C4798006E2FDE /* SplashView.swift in Sources */,
 				2F76110F2884A0C5005D4183 /* Account.swift in Sources */,
+				2F070CCB28943DF8000219EE /* Transaction.swift in Sources */,
 				2F070CC528918FB0000219EE /* BudgetHeader.swift in Sources */,
 				2F7611132884AB81005D4183 /* Image+Data.swift in Sources */,
 				2F7611172885B843005D4183 /* Hierarchy.swift in Sources */,
+				2F070CC9289439A6000219EE /* Budget.swift in Sources */,
 				2F7611202886FADE005D4183 /* SettingsView.swift in Sources */,
 				2F070CC1288EF919000219EE /* CategoryList.swift in Sources */,
 				2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */,
