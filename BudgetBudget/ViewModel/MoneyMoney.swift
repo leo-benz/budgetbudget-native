@@ -33,11 +33,21 @@ class MoneyMoney: ObservableObject {
             }
         }
     }
-    @Published public var categories: [Category]?
+    @Published public var categories: [Category]? {
+        didSet {
+            categories?.enumerated().forEach{ $0.element.isEven = $0.offset % 2 != 0}
+        }
+    }
     @Published public var flatCategories: [Category]?
 
     public var filteredCategories: [Category]? {
         categories?.filter {
+            !$0.isDefault && !$0.isIncome
+        }
+    }
+
+    public var filteredFlatCategories: [Category]? {
+        flatCategories?.filter {
             !$0.isDefault && !$0.isIncome
         }
     }

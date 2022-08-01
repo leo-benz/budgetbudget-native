@@ -22,7 +22,7 @@ class Transaction: ObservableObject, Decodable, Identifiable {
     var category: Category? {
         didSet {
             if let category = category {
-                category.transactions?.append(self)
+                category.transactions.append(self)
             }
         }
     }

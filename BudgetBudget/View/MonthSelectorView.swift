@@ -73,7 +73,7 @@ struct MonthSelectorView: View {
 }
 
 extension Date {
-    func monthID() -> String {
+    var monthID: String {
         let dateformat = DateFormatter()
         dateformat.dateFormat = "yyyy-MM"
         return dateformat.string(from: self)

@@ -10,18 +10,19 @@ import Foundation
 
 struct ContentView: View {
     @ObservedObject var moneymoney: MoneyMoney
-    
+    @ObservedObject var budget: Budget
+
     @State var selectedDate: String?
     
     var body: some View {
-        BudgetView(moneymoney: moneymoney)
+        BudgetView(moneymoney: moneymoney, budget: budget)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     MonthSelectorView(scrollTarget: $selectedDate)
                 }
                 ToolbarItem(placement: .principal) {
                     Button("Today") {
-                        selectedDate = Date().monthID()
+                        selectedDate = Date().monthID
                     }
                 }
             }
@@ -30,6 +31,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(moneymoney: MoneyMoney())
+        ContentView(moneymoney: MoneyMoney(), budget: Budget())
     }
 }

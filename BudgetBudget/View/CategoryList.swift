@@ -33,6 +33,8 @@ struct CategoryList: View {
                     .font(category.isGroup ? .caption.weight(.bold) : .body)
                 Spacer()
             }.padding([.leading], CGFloat(category.indentation) * 15)
+            // Can be improved for iOS16 based on custom DiscolusreGroupStyle
+                .background(Rectangle().foregroundColor(category.isEven && !category.isGroup ? .secondary.opacity(0.1) : .clear))
         }
     }
 
@@ -52,7 +54,7 @@ struct CategoryList: View {
         @ObservedObject var category: Category
 
         var body: some View {
-            DisclosureGroup {
+            DisclosureGroup(isExpanded: $category.isExpanded) {
                 ForEach(category.children!) {
                     CategoryRow(category: $0)
                 }
