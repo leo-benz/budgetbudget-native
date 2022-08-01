@@ -9,20 +9,20 @@ import SwiftUI
 
 @main
 struct BudgetBudgetApp: App {
-    @StateObject var moneymoney = MoneyMoney()
+    @StateObject var budget = Budget()
 
     var body: some Scene {
         WindowGroup {
             // SplashView()
-            ContentView(moneymoney: moneymoney).onAppear {
-                moneymoney.sync()
+            ContentView(moneymoney: budget.moneymoney, budget: budget).onAppear {
+                budget.moneymoney.sync()
             }
         }.windowStyle(.titleBar)
             .windowToolbarStyle(.unifiedCompact)
 
 #if os(macOS)
         Settings {
-            SettingsView(moneymoney: moneymoney)
+            SettingsView(moneymoney: budget.moneymoney)
         }
 #endif
     }

@@ -34,7 +34,12 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
         name
     }
 
-    private (set) var children: [Category]?
+    private (set) var children: [Category]? {
+        didSet {
+            children?.enumerated().forEach { $0.element.isEven = $0.offset % 2 != 0}
+        }
+    }
+
     @Published var isSelected = false
     @Published var transactions = [Transaction]()
 
@@ -54,7 +59,19 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
     let budget: Category.Budget?
     let isGroup: Bool
     var isIncome = false
-    var isCollapsed = false
+    var isEven: Bool = false
+
+    @Published var isExpanded = true {
+        didSet {
+            children?.forEach { $0.isVisible = self.isExpanded }
+        }
+    }
+
+    @Published var isVisible = true {
+        didSet {
+            children?.forEach { $0.isVisible = self.isVisible }
+        }
+    }
 
     enum CodingKeys: String, CodingKey {
         case indentation
@@ -79,3 +96,11 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
         self.isGroup = try container.decode(Bool.self, forKey: .isGroup)
     }
 }
+
+extension Category {
+    func recursiveForEach(_ callback: (Category) -> Void) {
+        callback(self)
+        children?.forEach{ $0.recursiveForEach(callback)}
+    }
+}
+

@@ -10,15 +10,17 @@ import SwiftUI
 struct BudgetHeader: View {
     @State var toBudget = 0.0
 
+    var budget: Budget.MonthlyBudget
+
     var body: some View {
         VStack (spacing: 10) {
-            Text("August").font(.headline)
+            Text(budget.date.month).font(.headline)
             // TODO: Use Grid in macOS 13
             HStack {
                 VStack(alignment: .trailing, spacing: 3) {
-                    Text("3.000,00")
-                    Text("0,00")
-                    Text("-3.000,00")
+                    Text("\(budget.availableFunds, specifier: "%.2f")")
+                    Text("\(budget.overspendInPreviousMonth, specifier: "%.2f")")
+                    Text("\(budget.budgeted, specifier: "%.2f")")
                     Text("\(toBudget, specifier: "%.2f")").toBudgetStyle(value: toBudget, monospaced: true)
                 }.font(.body.monospaced())
                 VStack(alignment: .leading, spacing: 3) {
@@ -32,15 +34,15 @@ struct BudgetHeader: View {
             HStack {
                 VStack(alignment: .trailing) {
                     Text("Budgeted").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing).foregroundColor(.secondary)
-                    Text("3000,00").font(.headline.monospaced())
+                    Text("\(budget.budgeted, specifier: "%.2f")").font(.headline.monospaced())
                 }
                 VStack(alignment: .trailing) {
                     Text("Spend").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing).foregroundColor(.secondary)
-                    Text("-2500,00").font(.headline.monospaced())
+                    Text("\(budget.spend, specifier: "%.2f")").font(.headline.monospaced())
                 }
                 VStack(alignment: .trailing) {
                     Text("Balance").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing).foregroundColor(.secondary)
-                    Text("30000,00").font(.headline.monospaced())
+                    Text("\(budget.balance, specifier: "%.2f")").font(.headline.monospaced())
                 }
             }
         }
@@ -65,7 +67,18 @@ extension View {
 }
 
 struct BudgetHeader_Previews: PreviewProvider {
+    static var monthlyBudget = Budget.MonthlyBudget(date: Date(), budgets: [], uncategorized: 0, settings: Budget.Settings())
+
     static var previews: some View {
-        BudgetHeader().frame(width: 500)
+        BudgetHeader(budget: monthlyBudget).frame(width: 500)
+    }
+}
+
+extension Date {
+    var month: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.setLocalizedDateFormatFromTemplate("MMMM")
+        return formatter.string(from: self)
     }
 }

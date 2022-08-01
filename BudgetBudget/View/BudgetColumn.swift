@@ -10,34 +10,63 @@ import SwiftUI
 struct BudgetColumn: View {
     @State private var budgeted: Double = 3.5
 
+    @ObservedObject var budget: Budget.MonthlyBudget
+
     var body: some View {
         VStack {
-            ForEach(0..<100) {_ in
-                BudgetRow(budgeted: $budgeted)
+            ForEach(budget.budgets) { budget in
+                BudgetRow(categoryBudget: budget, category: budget.category)
             }
+            Spacer()
         }
     }
 
     struct BudgetRow: View {
-        @Binding var budgeted: Double
-
-        @State private var spend = 8.5
-        @State private var balance = -5.0
+        @ObservedObject var categoryBudget: Budget.CategoryBudget
+        @ObservedObject var category: Category
 
         @State private var hovered = false
         @FocusState private var isFocused: Bool
 
+        private let numberFormatter: NumberFormatter = {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            formatter.generatesDecimalNumbers = true
+            formatter.allowsFloats = true
+            formatter.alwaysShowsDecimalSeparator = true
+            formatter.usesSignificantDigits = true
+            formatter.minimumFractionDigits = 2
+            formatter.maximumFractionDigits = 2
+            return formatter
+        }()
+
         var body: some View {
-            HStack {
-                TextField("Budgeted", value: $budgeted, format: .number)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .textFieldStyle(.plain).multilineTextAlignment(.trailing)
-                    .onHover { hovered = $0 }
-                    .focused($isFocused)
-                    .border(isFocused ? .blue : hovered ? Color.secondary : .clear)
-                Text("\(spend, specifier: "%.2f")").frame(maxWidth: .infinity, alignment: .trailing).foregroundColor(spend == 0 ? .secondary : .primary)
-                Text("\(balance, specifier: "%.2f")").frame(maxWidth: .infinity, alignment: .trailing).foregroundColor(balance < 0 ? .red : balance == 0 ? .secondary : .primary)
-            }.font(.body.monospaced())
+            if category.isVisible {
+                HStack {
+                    if category.isGroup {
+                        Text("\(categoryBudget.budgeted, specifier: "%.2f")")
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
+                    } else {
+                        TextField("Budgeted", value: $categoryBudget.budgeted, format: .number.precision(.fractionLength(2)))
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .textFieldStyle(.plain).multilineTextAlignment(.trailing)
+                            .onHover { hovered = $0 }
+                            .focused($isFocused)
+                            .border(isFocused ? .blue : hovered ? Color.secondary : .clear)
+                            .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
+                    }
+                    Text("\(categoryBudget.spend, specifier: "%.2f")")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .foregroundColor(categoryBudget.spend == 0 ? .secondary : .primary)
+                    Text("\(categoryBudget.available, specifier: "%.2f")")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .foregroundColor(categoryBudget.available < 0 ? .red : (categoryBudget.available == 0 ? .secondary : .primary))
+                }.font(category.isGroup ? .subheadline.monospaced() : .body.monospaced())
+                    .background(Rectangle().foregroundColor(category.isEven && !category.isGroup ? .secondary.opacity(0.1) : .clear))
+            } else {
+                EmptyView()
+            }
         }
     }
 }
@@ -45,7 +74,7 @@ struct BudgetColumn: View {
 struct BudgetColumn_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            BudgetColumn()
+            BudgetColumn(budget: Budget.MonthlyBudget(date: Date(), budgets: [], uncategorized: 0, settings: Budget.Settings()))
         }.frame(width: 300)
     }
 }
