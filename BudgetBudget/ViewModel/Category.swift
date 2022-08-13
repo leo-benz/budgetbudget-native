@@ -41,7 +41,7 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
     }
 
     @Published var isSelected = false
-    @Published var transactions = [Transaction]()
+    @Published var transactions = Set<Transaction>()
 
     func append(child: Category) {
         if children == nil {

@@ -22,6 +22,8 @@
 		2F2F5413288CA145006E2FDE /* moneymoneyExists.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F540F288CA145006E2FDE /* moneymoneyExists.scpt */; platformFilters = (macos, ); };
 		2F2F5414288CA145006E2FDE /* exportAccounts.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2F2F5410288CA145006E2FDE /* exportAccounts.scpt */; platformFilters = (macos, ); };
 		2F3DB1AF288D5C30007B360C /* MonthSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3DB1AE288D5C30007B360C /* MonthSelectorView.swift */; };
+		2F451CC428A78ABB000CED13 /* Date+Month.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F451CC328A78ABB000CED13 /* Date+Month.swift */; };
+		2F451CC628A78C97000CED13 /* String+Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F451CC528A78C97000CED13 /* String+Format.swift */; };
 		2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */; };
 		2F7610C2288481E5005D4183 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7610C1288481E5005D4183 /* ContentView.swift */; };
 		2F7610C4288481E7005D4183 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F7610C3288481E7005D4183 /* Assets.xcassets */; };
@@ -53,6 +55,8 @@
 		2F2F5415288CAAEF006E2FDE /* BudgetBudget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BudgetBudget.entitlements; sourceTree = "<group>"; };
 		2F2F5416288CB122006E2FDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2F3DB1AE288D5C30007B360C /* MonthSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSelectorView.swift; sourceTree = "<group>"; };
+		2F451CC328A78ABB000CED13 /* Date+Month.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Month.swift"; sourceTree = "<group>"; };
+		2F451CC528A78C97000CED13 /* String+Format.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Format.swift"; sourceTree = "<group>"; };
 		2F7610BC288481E5005D4183 /* BudgetBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BudgetBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetBudgetApp.swift; sourceTree = "<group>"; };
 		2F7610C1288481E5005D4183 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -171,6 +175,8 @@
 			children = (
 				2F7611122884AB81005D4183 /* Image+Data.swift */,
 				2F7611162885B843005D4183 /* Hierarchy.swift */,
+				2F451CC328A78ABB000CED13 /* Date+Month.swift */,
+				2F451CC528A78C97000CED13 /* String+Format.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -258,7 +264,9 @@
 				2F76110928849658005D4183 /* MoneyMoney.swift in Sources */,
 				2F070CC328918FAA000219EE /* BudgetColumn.swift in Sources */,
 				2F2F5404288C4798006E2FDE /* SplashView.swift in Sources */,
+				2F451CC428A78ABB000CED13 /* Date+Month.swift in Sources */,
 				2F76110F2884A0C5005D4183 /* Account.swift in Sources */,
+				2F451CC628A78C97000CED13 /* String+Format.swift in Sources */,
 				2F070CCB28943DF8000219EE /* Transaction.swift in Sources */,
 				2F070CC528918FB0000219EE /* BudgetHeader.swift in Sources */,
 				2F7611132884AB81005D4183 /* Image+Data.swift in Sources */,
