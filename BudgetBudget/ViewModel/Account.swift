@@ -45,6 +45,8 @@ class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifi
 
     var moneymoney: MoneyMoney?
 
+    var transactions = Set<Transaction>()
+
     // Custom Properties
     private (set) var children: [Account]?
 
@@ -52,6 +54,9 @@ class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifi
         didSet {
             if let moneymoney = moneymoney {
                 moneymoney.syncTransactions()
+            }
+            if !isSelected {
+                transactions.forEach { $0.delete() }
             }
         }
     }

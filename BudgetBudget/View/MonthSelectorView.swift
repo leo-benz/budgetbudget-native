@@ -72,14 +72,6 @@ struct MonthSelectorView: View {
     }
 }
 
-extension Date {
-    var monthID: String {
-        let dateformat = DateFormatter()
-        dateformat.dateFormat = "yyyy-MM"
-        return dateformat.string(from: self)
-    }
-}
-
 struct MonthSelectorView_Previews: PreviewProvider {
     static var previews: some View {
         MonthSelectorView(scrollTarget: .constant("Jan2023")).frame(width: 300, height: 30)

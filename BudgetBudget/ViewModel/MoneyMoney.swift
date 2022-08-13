@@ -46,6 +46,12 @@ class MoneyMoney: ObservableObject {
         }
     }
 
+    func filtered(categories: [Category]) -> [Category] {
+        return categories.filter {
+            !$0.isDefault && !$0.isIncome
+        }
+    }
+
     public var filteredFlatCategories: [Category]? {
         flatCategories?.filter {
             !$0.isDefault && !$0.isIncome
@@ -87,7 +93,6 @@ class MoneyMoney: ObservableObject {
         print("Sync Transactions")
         let decoder = PropertyListDecoder()
         let selectedAccounts = flatAccounts!.filter{
-            print("\($0.name): \($0.isSelected)")
             return $0.isSelected
         }
         for account in selectedAccounts {

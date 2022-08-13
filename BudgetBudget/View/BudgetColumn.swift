@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct BudgetColumn: View {
-    @State private var budgeted: Double = 3.5
-
     @ObservedObject var budget: Budget.MonthlyBudget
 
     var body: some View {
@@ -61,7 +59,7 @@ struct BudgetColumn: View {
                         .foregroundColor(categoryBudget.spend == 0 ? .secondary : .primary)
                     Text("\(categoryBudget.available, specifier: "%.2f")")
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                        .foregroundColor(categoryBudget.available < 0 ? .red : (categoryBudget.available == 0 ? .secondary : .primary))
+                        .foregroundColor(categoryBudget.available < 0 && !category.isGroup ? .red : (categoryBudget.available == 0 ? .secondary : .primary))
                 }.font(category.isGroup ? .subheadline.monospaced() : .body.monospaced())
                     .background(Rectangle().foregroundColor(category.isEven && !category.isGroup ? .secondary.opacity(0.1) : .clear))
             } else {
@@ -74,7 +72,7 @@ struct BudgetColumn: View {
 struct BudgetColumn_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            BudgetColumn(budget: Budget.MonthlyBudget(date: Date(), budgets: [], uncategorized: 0, settings: Budget.Settings()))
+            BudgetColumn(budget: Budget.MonthlyBudget(date: Date(), budget: Budget()))
         }.frame(width: 300)
     }
 }

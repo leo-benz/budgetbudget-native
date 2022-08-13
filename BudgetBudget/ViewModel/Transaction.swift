@@ -12,23 +12,47 @@ struct TransactionWrapper: Decodable {
     var transactions: [Transaction]
 }
 
-class Transaction: ObservableObject, Decodable, Identifiable {
+public class Transaction: ObservableObject, Decodable, Identifiable, Hashable {
+    public static func == (lhs: Transaction, rhs: Transaction) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
     private var accountId: UUID
-    var account: Account?
+    var account: Account? {
+        willSet {
+            if account != newValue {
+                account?.transactions.remove(self)
+            }
+        }
+        didSet {
+            if let account = account {
+                account.transactions.insert(self)
+            }
+        }
+    }
     var amount: Double
     var booked: Bool
     var bookingDate: Date
     private var categoryId: UUID
     var category: Category? {
+        willSet {
+            if category != newValue {
+                category?.transactions.remove(self)
+            }
+        }
         didSet {
             if let category = category {
-                category.transactions.append(self)
+                category.transactions.insert(self)
             }
         }
     }
     var checkmark: Bool
     var currency: String
-    var id: Int
+    public var id: Int
     var name: String
     var valueDate: Date
 
@@ -39,6 +63,11 @@ class Transaction: ObservableObject, Decodable, Identifiable {
                 category = moneymoney.flatCategories?.first { $0.id == categoryId }
             }
         }
+    }
+
+    func delete() {
+        account = nil
+        category = nil
     }
 
     enum CodingKeys: String, CodingKey {
@@ -54,7 +83,7 @@ class Transaction: ObservableObject, Decodable, Identifiable {
         case valueDate
     }
 
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.accountId = try container.decode(UUID.self, forKey: .accountId)
         self.amount = try container.decode(Double.self, forKey: .amount)
@@ -67,4 +96,16 @@ class Transaction: ObservableObject, Decodable, Identifiable {
         self.name = try container.decode(String.self, forKey: .name)
         self.valueDate = try container.decode(Date.self, forKey: .valueDate)
     }
+}
+
+public func +(lhs: Transaction, rhs: Transaction) -> Double {
+    return lhs.amount + rhs.amount
+}
+
+public func +(lhs: Double, rhs: Transaction) -> Double {
+    return lhs + rhs.amount
+}
+
+public func +=(lhs: inout Double, rhs: Transaction) {
+    lhs = lhs + rhs.amount
 }
