@@ -33,7 +33,7 @@ struct SettingsView: View {
                 }.alignmentGuide(.leading) { $0[.controlAlignment] }
             }.tabItem {
                 Label("General", systemImage: "gear")
-            }.padding(20)
+            }.formStyle(.grouped)
 
             Form {
                 Section("Income Categories") {
@@ -41,23 +41,17 @@ struct SettingsView: View {
                 }
             }.tabItem {
                 Label("Categories", systemImage: "bookmark")
-            }.padding(20)
+            }.formStyle(.grouped)
 
             Form {
                 Toggle("Ignore pending transactions", isOn: $ignorePendingTransactions)
-
-                if #available(macOS 13.0, *) {
-                    LabeledContent("Tracked Accounts") {
-                        AccountList(accounts: moneymoney.accounts, isSelectable: true)
-                            .listStyle(.bordered)
-                    }
-                } else {
+                LabeledContent("Tracked Accounts") {
                     AccountList(accounts: moneymoney.accounts, isSelectable: true)
                         .listStyle(.bordered)
                 }
             }.tabItem {
                 Label("Accounts", systemImage: "building.columns")
-            }.padding(20)
+            }.formStyle(.grouped)
         }.frame(minWidth: 350, minHeight: 350)
     }
 }
