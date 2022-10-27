@@ -1,3 +1,5 @@
+[![Gitter](https://badges.gitter.im/BudgetBudget/community.svg)](https://gitter.im/BudgetBudget/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 # BudgetBudget
 An implementation of [BudgetBudget](https://github.com/Xiphe/budgetbudget) using the native Apple technology stack.
 
