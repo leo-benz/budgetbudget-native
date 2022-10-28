@@ -9,3 +9,5 @@
 "splash-welcome" = "Welcome to BudgetBudget";
 "splash-description" = "envelope-style budgeting for your MoneyMoney transactions";
 "splash-unusable" = "This app is under development and not usable yet.\nPlease check back later.";
+"hide" = "hide";
+"show" = "show";

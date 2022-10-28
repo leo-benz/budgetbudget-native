@@ -12,7 +12,7 @@ struct CategoryList: View {
 
     var body: some View {
         if let categories = categories {
-            VStack {
+            VStack(spacing: 0) {
                 ForEach(categories) {
                     CategoryRow(category: $0)
                 }
@@ -23,6 +23,7 @@ struct CategoryList: View {
 
     struct CategoryRowContent: View {
         @ObservedObject var category: Category
+        @State var isHover = false
 
         var body: some View {
             HStack {
@@ -32,9 +33,18 @@ struct CategoryList: View {
                 Text(category.name)
                     .font(category.isGroup ? .caption.weight(.bold) : .body)
                 Spacer()
-            }.padding([.leading], CGFloat(category.indentation) * 15)
-            // Can be improved for iOS16 based on custom DiscolusreGroupStyle
-                .background(Rectangle().foregroundColor(category.isEven && !category.isGroup ? .secondary.opacity(0.1) : .clear))
+                if category.isGroup && isHover {
+                    Text(category.isExpanded ? "hide" : "show")
+                        .foregroundColor(.accentColor)
+                        .font(.caption.lowercaseSmallCaps())
+                }
+            }
+            .padding([.leading], CGFloat(category.indentation) * 15)
+            .padding([.top], category.isGroup ? 5 : 0)
+            .padding([.vertical], 3)
+            .background(Rectangle().foregroundColor(!category.isEven && !category.isGroup ? .secondary.opacity(0.1) : .clear))
+            .onHover { isHover = $0 }
+
         }
     }
 
@@ -60,6 +70,23 @@ struct CategoryList: View {
                 }
             } label: {
                 CategoryRowContent(category: category)
+            }.disclosureGroupStyle(CategoryGroupStyle())
+        }
+    }
+
+    struct CategoryGroupStyle: DisclosureGroupStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            VStack(spacing: 0) {
+                Button {
+                    withAnimation {
+                        configuration.isExpanded.toggle()
+                    }
+                } label: {
+                    configuration.label
+                }.buttonStyle(.plain)
+                if configuration.isExpanded {
+                    configuration.content
+                }
             }
         }
     }

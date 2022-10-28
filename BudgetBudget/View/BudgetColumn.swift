@@ -11,7 +11,7 @@ struct BudgetColumn: View {
     @ObservedObject var budget: Budget.MonthlyBudget
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ForEach(budget.budgets) { budget in
                 BudgetRow(categoryBudget: budget, category: budget.category)
             }
@@ -63,7 +63,11 @@ struct BudgetColumn: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .foregroundColor(categoryBudget.available < 0 && !category.isGroup ? .red : (categoryBudget.available == 0 ? .secondary : .primary))
                 }.font(category.isGroup ? .subheadline.monospaced() : .body.monospaced())
-                    .background(Rectangle().foregroundColor(category.isEven && !category.isGroup ? .secondary.opacity(0.1) : .clear))
+                    .padding([.vertical], 3)
+                    .padding([.top], category.isGroup ? 5 : 0)
+                    // FIXME: Replace magic number with calculated value from category list
+                    .frame(height: category.isGroup ? 24 : 22)
+                    .background(Rectangle().foregroundColor(!category.isEven && !category.isGroup ? .secondary.opacity(0.1) : .clear))
             } else {
                 EmptyView()
             }

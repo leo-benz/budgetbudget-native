@@ -9,3 +9,5 @@
 "splash-welcome" = "Willkommen bei BudgetBudget";
 "splash-description" = "envelope-style Budgetierung für deine MoneyMoney Transaktionen";
 "splash-unusable" = "Diese App ist in Entwicklung und noch nicht benutzbar.\nBitte schaue später nochmal vorbei.";
+"hide" = "verstecken";
+"show" = "anzeigen";
