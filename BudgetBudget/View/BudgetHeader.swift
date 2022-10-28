@@ -13,24 +13,29 @@ struct BudgetHeader: View {
     var body: some View {
         VStack (spacing: 10) {
             Text(budget.date.month.description).font(.headline)
-            // TODO: Use Grid in macOS 13
-            HStack {
-                VStack(alignment: .trailing, spacing: 3) {
-                    Text("\(budget.availableFunds, specifier: "%.2f")")
-                    Text("\(budget.overspendInPreviousMonth, specifier: "%.2f")")
-                    if (budget.uncategorized > 0) {
-                        Text("\(budget.uncategorized, specifier: "%.2f")")
-                    }
-                    Text("\(budget.budgeted, specifier: "%.2f")")
-                    Text("\(budget.toBudget, specifier: "%.2f")").toBudgetStyle(value: budget.toBudget, monospaced: true)
-                }.font(.body.monospaced())
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("Available Funds")
+
+            Grid(verticalSpacing: 3) {
+                GridRow(alignment: .firstTextBaseline) {
+                    Text("\(budget.availableFunds, specifier: "%.2f")").font(.body.monospaced()).gridColumnAlignment(.trailing)
+                    Text("Available Funds").gridColumnAlignment(.leading)
+                }
+                GridRow(alignment: .firstTextBaseline) {
+                    Text("\(budget.overspendInPreviousMonth, specifier: "%.2f")").font(.body.monospaced())
                     Text("Overspend in \(budget.date.previousMonth().month.description)")
-                    if (budget.uncategorized > 0) {
+                }
+                if (budget.uncategorized > 0) {
+                    GridRow(alignment: .firstTextBaseline) {
+                        Text("\(budget.uncategorized, specifier: "%.2f")").font(.body.monospaced())
                         Text("Uncategorized")
+
                     }
+                }
+                GridRow(alignment: .firstTextBaseline) {
+                    Text("\(budget.budgeted, specifier: "%.2f")").font(.body.monospaced())
                     Text("Budgeted")
+                }
+                GridRow(alignment: .firstTextBaseline) {
+                    Text("\(budget.toBudget, specifier: "%.2f")").toBudgetStyle(value: budget.toBudget, monospaced: true)
                     Text("To Budget").toBudgetStyle(value: budget.toBudget)
                 }
             }
