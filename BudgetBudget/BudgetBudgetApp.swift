@@ -22,7 +22,7 @@ struct BudgetBudgetApp: App {
 
 #if os(macOS)
         Settings {
-            SettingsView(moneymoney: budget.moneymoney)
+            SettingsView(moneymoney: budget.moneymoney, settings: $budget.settings)
         }
 #endif
     }

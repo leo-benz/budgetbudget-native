@@ -10,12 +10,20 @@ import Combine
 
 class Budget: ObservableObject {
 
-    var name: String = "Default"
-    var settings = Settings()
+    @Published var name: String = "Default"
 
+    @Published var settings: Settings
     @Published var moneymoney = MoneyMoney()
 
     private var monthlyBudgets: [Date: MonthlyBudget] = [:]
+    private var subscribers: Set<AnyCancellable> = []
+
+    init() {
+        settings = UserDefaults.standard.codable(forKey: "Settings") ?? Settings()
+        $settings.sink { setting in
+            UserDefaults.standard.set(value: setting, forKey: "Settings")
+        }.store(in: &subscribers)
+    }
 
     func budgetFor(date: Date) -> MonthlyBudget {
         let monthlyBudget = monthlyBudgets[date]
@@ -145,7 +153,7 @@ class Budget: ObservableObject {
                 DispatchQueue.main.async { [self] in
                     updateBasedOn(children: category.children)
                     category.children?.forEach { child in
-                        if let childBudget = budget.budgets.first { $0.category == child } {
+                        if let childBudget = budget.budgets.first(where: { $0.category == child }) {
                             childBudget.$budgeted.sink { [weak self] _ in
                                 self?.updateBasedOn(children: category.children)
                             }.store(in: &cancellableBag)
@@ -171,7 +179,7 @@ class Budget: ObservableObject {
             var spend = 0.0
             var available = 0.0
             children?.forEach { child in
-                if let childBudget = budget.budgets.first { $0.category == child } {
+                if let childBudget = budget.budgets.first(where: { $0.category == child }) {
                     budgeted += childBudget.budgeted
                     spend += childBudget.spend
                     available += childBudget.available
@@ -191,17 +199,17 @@ class Budget: ObservableObject {
         }
     }
 
-    class Settings {
+    struct Settings: Codable {
         var ignorePendingTransactions = true
         var startDate = Date()
-        var startBalance = 0
+        var startBalance = 0.0
         var currency = "EUR"
         var ignoreUncategorized = false
-        var incomeCategories = [IncomeCategory]()
+//        var incomeCategories = [IncomeCategory]()
 
-        struct IncomeCategory {
-            var category: Category
-            var availableIn: Int
-        }
+//        struct IncomeCategory {
+//            var category: Category
+//            var availableIn: Int
+//        }
     }
 }

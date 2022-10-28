@@ -9,25 +9,22 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var moneymoney: MoneyMoney
+    @Binding var settings: Budget.Settings
 
     @State private var name = ""
-    @State private var currency = ""
-    @State private var ignorePendingTransactions = false
-    @State private var startDate = Date.now
-    @State private var startingBalance: Double = 0
 
     var body: some View {
         TabView {
             Form {
                 TextField("Name", text: $name)
-                TextField("Currency", text: $currency)
-                DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+                TextField("Currency", text: $settings.currency)
+                DatePicker("Start Date", selection: $settings.startDate, displayedComponents: .date)
                 HStack(spacing: 0) {
                     Text("Starting Balance")
-                    TextField("", value: $startingBalance, format: .currency(code: currency))
+                    TextField("", value: $settings.startBalance, format: .currency(code: settings.currency))
                         .padding(.trailing, 3.0)
                         .alignmentGuide(.controlAlignment) { $0[.leading] }
-                    Stepper("Starting Balance", value: $startingBalance, step: 1).labelsHidden()
+                    Stepper("Starting Balance", value: $settings.startBalance, step: 1).labelsHidden()
                         .padding([.trailing])
                     Button("Re-Calculate") { }
                 }.alignmentGuide(.leading) { $0[.controlAlignment] }
@@ -44,7 +41,7 @@ struct SettingsView: View {
             }.formStyle(.grouped)
 
             Form {
-                Toggle("Ignore pending transactions", isOn: $ignorePendingTransactions)
+                Toggle("Ignore pending transactions", isOn: $settings.ignorePendingTransactions)
                 LabeledContent("Tracked Accounts") {
                     AccountList(accounts: moneymoney.accounts, isSelectable: true)
                         .listStyle(.bordered)

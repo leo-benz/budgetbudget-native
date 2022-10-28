@@ -6,13 +6,16 @@
 //
 
 import Foundation
+import os.signpost
 
 #if os(OSX)
 import Carbon
 #endif
 
 class MoneyMoney: ObservableObject {
-    
+
+    private let log = OSLog(subsystem: "app.budgetbudget", category: "MoneyMoney")
+
     public var installed: Bool {
 #if os(OSX)
         return executeAppleScript("moneymoneyExists").booleanValue
@@ -64,6 +67,7 @@ class MoneyMoney: ObservableObject {
 
     public func sync() {
 #if os(OSX)
+        os_signpost(.begin, log: log, name: "Sync")
         let accountsXML = executeAppleScript("exportAccounts").stringValue ?? ""
         let decoder = PropertyListDecoder()
         do {
@@ -82,6 +86,7 @@ class MoneyMoney: ObservableObject {
             fatalError("Unable to decode categories: \(error)")
         }
         syncTransactions()
+        os_signpost(.end, log: log, name: "Sync")
 
 #else
         accounts = []
@@ -90,7 +95,7 @@ class MoneyMoney: ObservableObject {
 
     func syncTransactions() {
 #if os(OSX)
-        print("Sync Transactions")
+        os_signpost(.begin, log: log, name: "Sync Transactions")
         let decoder = PropertyListDecoder()
         let selectedAccounts = flatAccounts!.filter{
             return $0.isSelected
@@ -105,6 +110,7 @@ class MoneyMoney: ObservableObject {
                 fatalError("Unable to decode transactions: \(error)")
             }
         }
+        os_signpost(.end, log: log, name: "Sync Transactions")
 #endif
     }
 

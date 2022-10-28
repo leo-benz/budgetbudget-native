@@ -34,6 +34,7 @@
 		2F7611172885B843005D4183 /* Hierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7611162885B843005D4183 /* Hierarchy.swift */; };
 		2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76111B2885D2CA005D4183 /* AccountList.swift */; };
 		2F7611202886FADE005D4183 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76111F2886FADE005D4183 /* SettingsView.swift */; };
+		2F8FD212290C664F00BD5FFB /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		2F7611162885B843005D4183 /* Hierarchy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hierarchy.swift; sourceTree = "<group>"; };
 		2F76111B2885D2CA005D4183 /* AccountList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountList.swift; sourceTree = "<group>"; };
 		2F76111F2886FADE005D4183 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 				2F7611162885B843005D4183 /* Hierarchy.swift */,
 				2F451CC328A78ABB000CED13 /* Date+Month.swift */,
 				2F451CC528A78C97000CED13 /* String+Format.swift */,
+				2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -209,7 +212,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					2F7610BB288481E5005D4183 = {
 						CreatedOnToolsVersion = 14.0;
@@ -273,6 +276,7 @@
 				2F7611172885B843005D4183 /* Hierarchy.swift in Sources */,
 				2F070CC9289439A6000219EE /* Budget.swift in Sources */,
 				2F7611202886FADE005D4183 /* SettingsView.swift in Sources */,
+				2F8FD212290C664F00BD5FFB /* UserDefaults+Codable.swift in Sources */,
 				2F070CC1288EF919000219EE /* CategoryList.swift in Sources */,
 				2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */,
 				2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */,
@@ -299,6 +303,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -360,6 +365,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
