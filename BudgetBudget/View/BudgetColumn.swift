@@ -46,13 +46,15 @@ struct BudgetColumn: View {
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
                     } else {
-                        TextField("Budgeted", value: $categoryBudget.budgeted, format: .number.precision(.fractionLength(2)))
+                        // FIXME: The Textfield here is severly degrading startup performance
+                        Text("\(categoryBudget.budgeted, specifier: "%.2f")")
+//                        TextField("Budgeted", value: $categoryBudget.budgeted, format: .number.precision(.fractionLength(2)))
                             .frame(maxWidth: .infinity, alignment: .trailing)
-                            .textFieldStyle(.plain).multilineTextAlignment(.trailing)
-                            .onHover { hovered = $0 }
-                            .focused($isFocused)
-                            .border(isFocused ? .blue : hovered ? Color.secondary : .clear)
-                            .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
+//                            .textFieldStyle(.plain).multilineTextAlignment(.trailing)
+//                            .onHover { hovered = $0 }
+//                            .focused($isFocused)
+//                            .border(isFocused ? .blue : hovered ? Color.secondary : .clear)
+//                            .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
                     }
                     Text("\(categoryBudget.spend, specifier: "%.2f")")
                         .frame(maxWidth: .infinity, alignment: .trailing)
