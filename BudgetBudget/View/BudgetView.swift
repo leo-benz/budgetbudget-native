@@ -19,28 +19,30 @@ struct BudgetView: View {
                 VisualEffect(material: .sidebar, blendingMode: .behindWindow).frame(width: categoryListWidth)
                 Divider()
                 Divider()
-                BudgetHeader(budget: budget.budgetFor(date: Date(month: .July, year: 2022)))
+                BudgetHeader(budget: budget.budgetFor(date: Date(month: .July, year: 2022))).padding(.horizontal)
                 Divider()
-                BudgetHeader(budget: budget.budgetFor(date: Date(month: .August, year: 2022)))
+                BudgetHeader(budget: budget.budgetFor(date: Date(month: .August, year: 2022))).padding(.horizontal)
                 Divider()
-                BudgetHeader(budget: budget.budgetFor(date: Date(month: .September, year: 2022)))
+                BudgetHeader(budget: budget.budgetFor(date: Date(month: .September, year: 2022))).padding(.horizontal)
             }.fixedSize(horizontal: false, vertical: true)
             Divider()
-            ScrollView(.vertical) {
-                HStack(spacing: 0) {
-                    CategoryList(categories: moneymoney.filteredCategories)
-                        .background(VisualEffect(material: .sidebar, blendingMode: .behindWindow))
-                        .fixedSize(horizontal: true, vertical: false)
-                        .overlay(WidthGeometry())
-                    // FIXME: Animation is not perfectly synchronized
-                        .onPreferenceChange(WidthPreferenceKey.self) { prefKey in withAnimation {categoryListWidth = prefKey }}
-                    Divider()
-                    Divider()
-                    BudgetColumn(budget: budget.budgetFor(date: Date(month: .July, year: 2022))).frame(maxWidth: .infinity)
-                    Divider()
-                    BudgetColumn(budget: budget.budgetFor(date: Date(month: .August, year: 2022))).frame(maxWidth: .infinity)
-                    Divider()
-                    BudgetColumn(budget: budget.budgetFor(date: Date(month: .September, year: 2022))).frame(maxWidth: .infinity)
+            GeometryReader { scrollGeo in
+                ScrollView(.vertical) {
+                    HStack(spacing: 0) {
+                        CategoryList(categories: moneymoney.filteredCategories)
+                            .background(VisualEffect(material: .sidebar, blendingMode: .behindWindow))
+                            .fixedSize(horizontal: true, vertical: false)
+                            .overlay(WidthGeometry())
+                        // FIXME: Animation is not perfectly synchronized
+                            .onPreferenceChange(WidthPreferenceKey.self) { prefKey in withAnimation {categoryListWidth = prefKey }}
+                        Divider()
+                        Divider()
+                        BudgetColumn(budget: budget.budgetFor(date: Date(month: .July, year: 2022))).frame(maxWidth: .infinity).padding(.horizontal)
+                        Divider()
+                        BudgetColumn(budget: budget.budgetFor(date: Date(month: .August, year: 2022))).frame(maxWidth: .infinity).padding(.horizontal)
+                        Divider()
+                        BudgetColumn(budget: budget.budgetFor(date: Date(month: .September, year: 2022))).frame(maxWidth: .infinity).padding(.horizontal)
+                    }.frame(minHeight: scrollGeo.size.height)
                 }
             }
         }
