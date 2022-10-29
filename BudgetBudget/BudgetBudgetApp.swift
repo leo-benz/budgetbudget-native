@@ -15,10 +15,16 @@ struct BudgetBudgetApp: App {
         WindowGroup {
             // SplashView()
             ContentView(moneymoney: budget.moneymoney, budget: budget).onAppear {
+                NSWindow.allowsAutomaticWindowTabbing = false
                 budget.moneymoney.sync()
             }
-        }.windowStyle(.titleBar)
-            .windowToolbarStyle(.unifiedCompact)
+        }
+        .windowStyle(.titleBar)
+        .windowToolbarStyle(.unifiedCompact)
+        .commands {
+            BudgetBudgetCommands(budget: budget)
+        }
+            
 
 #if os(macOS)
         Settings {

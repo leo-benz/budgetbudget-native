@@ -35,6 +35,7 @@
 		2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76111B2885D2CA005D4183 /* AccountList.swift */; };
 		2F7611202886FADE005D4183 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76111F2886FADE005D4183 /* SettingsView.swift */; };
 		2F8FD212290C664F00BD5FFB /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */; };
+		2FA671CD290D578E00250C83 /* BudgetBudgetCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671CC290D578E00250C83 /* BudgetBudgetCommands.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		2F76111B2885D2CA005D4183 /* AccountList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountList.swift; sourceTree = "<group>"; };
 		2F76111F2886FADE005D4183 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
+		2FA671CC290D578E00250C83 /* BudgetBudgetCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetBudgetCommands.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				2F76111A2885D29B005D4183 /* View */,
 				2F7610CD28848345005D4183 /* Scripts */,
 				2F7610BF288481E5005D4183 /* BudgetBudgetApp.swift */,
+				2FA671CC290D578E00250C83 /* BudgetBudgetCommands.swift */,
 				2F76111E2885D348005D4183 /* Helper */,
 				2F76111D2885D326005D4183 /* ViewModel */,
 				2F7610C3288481E7005D4183 /* Assets.xcassets */,
@@ -279,6 +282,7 @@
 				2F8FD212290C664F00BD5FFB /* UserDefaults+Codable.swift in Sources */,
 				2F070CC1288EF919000219EE /* CategoryList.swift in Sources */,
 				2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */,
+				2FA671CD290D578E00250C83 /* BudgetBudgetCommands.swift in Sources */,
 				2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */,
 				2F070CBD288EEFA5000219EE /* Category.swift in Sources */,
 			);
