@@ -14,7 +14,7 @@ struct BudgetBudgetApp: App {
     var body: some Scene {
         WindowGroup {
             // SplashView()
-            ContentView(moneymoney: budget.moneymoney, budget: budget).onAppear {
+            ContentView(moneymoney: budget.moneymoney, budget: budget, selectedDate: Date().monthID).onAppear {
                 NSWindow.allowsAutomaticWindowTabbing = false
                 budget.moneymoney.sync()
             }

@@ -19,6 +19,11 @@ extension Date {
         let date = formatter.date(from: dateString)!
         self.init(timeInterval: 0, since: date)
     }
+    
+    init(monthID: String) {
+        let date = monthID + "-01"
+        self.init(date)
+    }
 
     var monthID: String {
         let dateformat = DateFormatter()
@@ -37,7 +42,13 @@ extension Date {
     }
 
     func previousMonth() -> Date {
-        return Date(month: self.month - 1, year: month == .January ? self.year - 1 : self.year)
+        // FIXME: Error handling
+        return Calendar.current.date(byAdding: .month, value: -1, to: self)!
+    }
+    
+    func nextMonth() -> Date {
+        // FIXME: Error handling
+        return Calendar.current.date(byAdding: .month, value: 1, to: self)!
     }
 
     func sameMonthAs(_ date: Date) -> Bool {

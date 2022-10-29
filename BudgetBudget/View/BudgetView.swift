@@ -12,6 +12,8 @@ struct BudgetView: View {
     @ObservedObject var budget: Budget
 
     @State private var categoryListWidth: CGFloat = 200
+    
+    @Binding var selectedDate: String
 
     var body: some View {
         VStack(spacing: 0) {
@@ -19,11 +21,11 @@ struct BudgetView: View {
                 VisualEffect(material: .sidebar, blendingMode: .behindWindow).frame(width: categoryListWidth)
                 Divider()
                 Divider()
-                BudgetHeader(budget: budget.budgetFor(date: Date(month: .July, year: 2022))).padding(.horizontal)
+                BudgetHeader(budget: budget.budgetFor(date: Date(monthID: selectedDate).previousMonth())).padding(.horizontal)
                 Divider()
-                BudgetHeader(budget: budget.budgetFor(date: Date(month: .August, year: 2022))).padding(.horizontal)
+                BudgetHeader(budget: budget.budgetFor(date: Date(monthID: selectedDate))).padding(.horizontal)
                 Divider()
-                BudgetHeader(budget: budget.budgetFor(date: Date(month: .September, year: 2022))).padding(.horizontal)
+                BudgetHeader(budget: budget.budgetFor(date: Date(monthID: selectedDate).nextMonth())).padding(.horizontal)
             }.fixedSize(horizontal: false, vertical: true)
             Divider()
             GeometryReader { scrollGeo in
@@ -37,11 +39,11 @@ struct BudgetView: View {
                             .onPreferenceChange(WidthPreferenceKey.self) { prefKey in withAnimation {categoryListWidth = prefKey }}
                         Divider()
                         Divider()
-                        BudgetColumn(budget: budget.budgetFor(date: Date(month: .July, year: 2022))).frame(maxWidth: .infinity).padding(.horizontal)
+                        BudgetColumn(budget: budget.budgetFor(date: Date(monthID: selectedDate).previousMonth())).frame(maxWidth: .infinity).padding(.horizontal)
                         Divider()
-                        BudgetColumn(budget: budget.budgetFor(date: Date(month: .August, year: 2022))).frame(maxWidth: .infinity).padding(.horizontal)
+                        BudgetColumn(budget: budget.budgetFor(date: Date(monthID: selectedDate))).frame(maxWidth: .infinity).padding(.horizontal)
                         Divider()
-                        BudgetColumn(budget: budget.budgetFor(date: Date(month: .September, year: 2022))).frame(maxWidth: .infinity).padding(.horizontal)
+                        BudgetColumn(budget: budget.budgetFor(date: Date(monthID: selectedDate).nextMonth())).frame(maxWidth: .infinity).padding(.horizontal)
                     }.frame(minHeight: scrollGeo.size.height)
                 }
             }
@@ -69,6 +71,6 @@ struct WidthPreferenceKey: PreferenceKey {
 
 struct BudgetView_Previews: PreviewProvider {
     static var previews: some View {
-        BudgetView(moneymoney: MoneyMoney(), budget: Budget())
+        BudgetView(moneymoney: MoneyMoney(), budget: Budget(), selectedDate: .constant("Jan2023"))
     }
 }

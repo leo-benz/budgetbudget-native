@@ -17,7 +17,7 @@ struct MonthSelectorView: View {
     static let currentMonth = months[Calendar.current.dateComponents([.month], from: Date()).month!]
     // ---------------------
     
-    @Binding var scrollTarget: String?
+    @Binding var scrollTarget: String
     
     var body: some View {
         ScrollViewReader { proxy in
@@ -32,6 +32,10 @@ struct MonthSelectorView: View {
                                     Text(month)
                                         .foregroundStyle(.primary)
                                         .padding(5)
+                                        // FIXME: why doesn't this work?
+//                                        .backgroundStyle(scrollTarget == id ? .selection : .background)
+//                                        .background(scrollTarget == id ? .selection : .background)
+                                        .fontWeight(scrollTarget == id ? .bold : .regular)
                                         .overlay(alignment: .bottom) {
                                             if (year == MonthSelectorView.currentYear && month == MonthSelectorView.currentMonth) {
                                                 Rectangle()
@@ -55,11 +59,8 @@ struct MonthSelectorView: View {
                     }
                 }
             }.onChange(of: scrollTarget) { newValue in
-                if let newValue = newValue {
-                    scrollTarget = nil
-                    withAnimation {
-                        proxy.scrollTo(newValue, anchor: .center)
-                    }
+                withAnimation {
+                    proxy.scrollTo(newValue, anchor: .center)
                 }
             }
             .overlay(
