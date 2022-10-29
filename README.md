@@ -11,3 +11,4 @@ This project is in early development and not usable yet.
 Contributions in the form of pull requests and issues are welcome. 
 Since the project is under active development it would be great to announce your contribution beforehand to avoid duplicate implementations of the same feature.
 
+Test
