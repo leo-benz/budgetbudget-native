@@ -7,10 +7,11 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
     typealias Element = Account
-
+    
     static func == (lhs: Account, rhs: Account) -> Bool {
         lhs.id == rhs.id
     }
@@ -66,6 +67,29 @@ class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifi
             children = []
         }
         children!.append(child)
+    }
+    
+    private var subscribers: Set<AnyCancellable> = []
+
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.indentation = try container.decode(Int.self, forKey: .indentation)
+        self.id = try container.decode(UUID.self, forKey: .id)
+        self.isPortfolio = try container.decode(Bool.self, forKey: .isPortfolio)
+        self.owner = try container.decode(String.self, forKey: .owner)
+        self.icon = try container.decode(Data.self, forKey: .icon)
+        self.isGroup = try container.decode(Bool.self, forKey: .isGroup)
+        self.currency = try container.decode(String.self, forKey: .currency)
+        self.bankCode = try container.decode(String.self, forKey: .bankCode)
+        self.attributes = try container.decode([String : String].self, forKey: .attributes)
+        self.accountNumber = try container.decode(String.self, forKey: .accountNumber)
+        self.balance = try container.decode([Account.Money].self, forKey: .balance)
+        
+        isSelected = UserDefaults.standard.bool(forKey: "Account-\(self.id):Selected")
+        $isSelected.sink { isSelected in
+            UserDefaults.standard.set(isSelected, forKey: "Account-\(self.id):Selected")
+        }.store(in: &subscribers)
     }
     
     // From MoneyMoney
