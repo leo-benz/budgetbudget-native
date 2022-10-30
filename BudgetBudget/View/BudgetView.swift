@@ -13,19 +13,17 @@ struct BudgetView: View {
 
     @State private var categoryListWidth: CGFloat = 200
     
-    @Binding var selectedDate: String
+    @Binding var displayedMonthIDs: [String]
 
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 VisualEffect(material: .sidebar, blendingMode: .behindWindow).frame(width: categoryListWidth)
                 Divider()
-                Divider()
-                BudgetHeader(budget: budget.budgetFor(date: Date(monthID: selectedDate).previousMonth())).padding(.horizontal)
-                Divider()
-                BudgetHeader(budget: budget.budgetFor(date: Date(monthID: selectedDate))).padding(.horizontal)
-                Divider()
-                BudgetHeader(budget: budget.budgetFor(date: Date(monthID: selectedDate).nextMonth())).padding(.horizontal)
+                ForEach(displayedMonthIDs, id: \.self) { monthID in
+                    Divider()
+                    BudgetHeader(budget: budget.budgetFor(date: Date(monthID: monthID))).padding(.horizontal)
+                }
             }.fixedSize(horizontal: false, vertical: true)
             Divider()
             GeometryReader { scrollGeo in
@@ -38,12 +36,10 @@ struct BudgetView: View {
                         // FIXME: Animation is not perfectly synchronized
                             .onPreferenceChange(WidthPreferenceKey.self) { prefKey in withAnimation {categoryListWidth = prefKey }}
                         Divider()
-                        Divider()
-                        BudgetColumn(budget: budget.budgetFor(date: Date(monthID: selectedDate).previousMonth())).frame(maxWidth: .infinity).padding(.horizontal)
-                        Divider()
-                        BudgetColumn(budget: budget.budgetFor(date: Date(monthID: selectedDate))).frame(maxWidth: .infinity).padding(.horizontal)
-                        Divider()
-                        BudgetColumn(budget: budget.budgetFor(date: Date(monthID: selectedDate).nextMonth())).frame(maxWidth: .infinity).padding(.horizontal)
+                        ForEach(displayedMonthIDs, id: \.self) { monthID in
+                            Divider()
+                            BudgetColumn(budget: budget.budgetFor(date: Date(monthID: monthID))).frame(maxWidth: .infinity).padding(.horizontal)
+                        }
                     }.frame(minHeight: scrollGeo.size.height)
                 }
             }
@@ -71,6 +67,6 @@ struct WidthPreferenceKey: PreferenceKey {
 
 struct BudgetView_Previews: PreviewProvider {
     static var previews: some View {
-        BudgetView(moneymoney: MoneyMoney(), budget: Budget(), selectedDate: .constant("Jan2023"))
+        BudgetView(moneymoney: MoneyMoney(), budget: Budget(), displayedMonthIDs: .constant([Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID]))
     }
 }

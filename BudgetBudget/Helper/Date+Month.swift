@@ -41,14 +41,14 @@ extension Date {
         return dateComonents.year!
     }
 
-    func previousMonth() -> Date {
+    func previousMonth(_ count: Int = 1) -> Date {
         // FIXME: Error handling
-        return Calendar.current.date(byAdding: .month, value: -1, to: self)!
+        return Calendar.current.date(byAdding: .month, value: -count, to: self)!
     }
     
-    func nextMonth() -> Date {
+    func nextMonth(_ count: Int = 1) -> Date {
         // FIXME: Error handling
-        return Calendar.current.date(byAdding: .month, value: 1, to: self)!
+        return Calendar.current.date(byAdding: .month, value: count, to: self)!
     }
 
     func sameMonthAs(_ date: Date) -> Bool {

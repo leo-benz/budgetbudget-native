@@ -14,10 +14,10 @@ struct MonthSelectorView: View {
     // Temporary for testing
     static let years = currentYear...currentYear+10
     static let currentYear = Calendar.current.dateComponents([.year], from: Date()).year!
-    static let currentMonth = months[Calendar.current.dateComponents([.month], from: Date()).month!]
     // ---------------------
     
     @Binding var scrollTarget: String
+    @Binding var displayedMonthIDs: [String]
     
     var body: some View {
         ScrollViewReader { proxy in
@@ -32,15 +32,11 @@ struct MonthSelectorView: View {
                                     Text(month)
                                         .foregroundStyle(.primary)
                                         .padding(5)
-                                        // FIXME: why doesn't this work?
-//                                        .backgroundStyle(scrollTarget == id ? .selection : .background)
-//                                        .background(scrollTarget == id ? .selection : .background)
-                                        .fontWeight(scrollTarget == id ? .bold : .regular)
                                         .overlay(alignment: .bottom) {
-                                            if (year == MonthSelectorView.currentYear && month == MonthSelectorView.currentMonth) {
+                                            if (displayedMonthIDs.contains(id)) {
                                                 Rectangle()
                                                     .fill(Color.accentColor)
-                                                    .frame(height: 3)
+                                                    .frame(height: 3.5)
                                             }
                                         }.onTapGesture {
                                             scrollTarget = id
@@ -59,6 +55,11 @@ struct MonthSelectorView: View {
                     }
                 }
             }.onChange(of: scrollTarget) { newValue in
+                let targetMonth = Date(monthID: newValue)
+                for i in displayedMonthIDs.indices {
+                    displayedMonthIDs[i] = targetMonth.nextMonth(i-1).monthID
+                }
+                
                 withAnimation {
                     proxy.scrollTo(newValue, anchor: .center)
                 }
@@ -75,7 +76,7 @@ struct MonthSelectorView: View {
 
 struct MonthSelectorView_Previews: PreviewProvider {
     static var previews: some View {
-        MonthSelectorView(scrollTarget: .constant("Jan2023")).frame(width: 300, height: 30)
-        MonthSelectorView(scrollTarget: .constant("Jan2023")).preferredColorScheme(.dark).frame(width: 300, height: 30)
+        MonthSelectorView(scrollTarget: .constant("Jan2023"), displayedMonthIDs: .constant([Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID])).frame(width: 300, height: 30)
+        MonthSelectorView(scrollTarget: .constant("Jan2023"), displayedMonthIDs: .constant([Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID])).preferredColorScheme(.dark).frame(width: 300, height: 30)
     }
 }
