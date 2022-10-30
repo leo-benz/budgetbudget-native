@@ -40,7 +40,21 @@ struct BudgetView: View {
                             Divider()
                             BudgetColumn(budget: budget.budgetFor(date: Date(monthID: monthID))).frame(maxWidth: .infinity).padding(.horizontal)
                         }
-                    }.frame(minHeight: scrollGeo.size.height)
+                    }
+                    .frame(minHeight: scrollGeo.size.height)
+                    .onChange(of: scrollGeo.size) { newSize in
+                        let colCount = displayedMonthIDs.count
+                        let newWidth = Int(newSize.width)
+
+                        if (newWidth / colCount) < 325 && colCount > 1 {
+                            _ = displayedMonthIDs.popLast()
+                        } else if (newWidth / (colCount + 1)) > 325 {
+                            if let lastMonth = displayedMonthIDs.last {
+                                let newMonth = Date(monthID: lastMonth).nextMonth()
+                                displayedMonthIDs.append(newMonth.monthID)
+                            }
+                        }
+                    }
                 }
             }
         }
