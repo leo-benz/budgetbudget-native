@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os
 
 class Budget: ObservableObject {
 
@@ -46,7 +47,12 @@ class Budget: ObservableObject {
         private var settings: Settings
 
         private var cancellableBag = Set<AnyCancellable>()
-
+        
+        private static let logger = Logger(
+            subsystem: Bundle.main.bundleIdentifier!,
+            category: String(describing: MonthlyBudget.self)
+        )
+        
         var debugDescription: String {
             return "MonthlyBudget: \(date.monthID), Categories: \(budgets.count)"
         }
@@ -63,6 +69,7 @@ class Budget: ObservableObject {
             self.moneymoney = budget.moneymoney
             updateBasedOn(categories: moneymoney.filteredFlatCategories)
             moneymoney.$flatCategories.sink { [weak self] value in
+//                Self.logger.debug("Flat categories update \(value?.debugDescription ?? "Nil")")
                 self?.updateBasedOn(categories: self?.moneymoney.filtered(categories: value ?? []))
             }.store(in: &cancellableBag)
         }
@@ -144,7 +151,13 @@ class Budget: ObservableObject {
 
         private var cancellableBag = Set<AnyCancellable>()
 
+        private static let logger = Logger(
+            subsystem: Bundle.main.bundleIdentifier!,
+            category: String(describing: CategoryBudget.self)
+        )
+        
         init(category: Category, date: Date, budget: MonthlyBudget) {
+//            Self.logger.debug("Init Category \(category) \(date)")
             self.category = category
             self.date = date
             self.available = 0
@@ -167,7 +180,6 @@ class Budget: ObservableObject {
                     }
                 }
             } else {
-                updateBasedOn(transactions: category.transactions)
                 category.$transactions.sink { [weak self] transactions in
                     self?.updateBasedOn(transactions: transactions)
                 }.store(in: &cancellableBag)
@@ -175,6 +187,7 @@ class Budget: ObservableObject {
         }
 
         func updateBasedOn(children: [Category]?) {
+//            Self.logger.debug("Update based on children \(children?.debugDescription ?? "[]")")
             var budgeted = 0.0
             var spend = 0.0
             var available = 0.0
@@ -192,7 +205,7 @@ class Budget: ObservableObject {
 
         func updateBasedOn(transactions: Set<Transaction>) {
             let currentMonthTransactions = transactions.filter { $0.bookingDate.sameMonthAs(date)}
-            print("\(category.name) \(date.monthID) Category transactions: \(currentMonthTransactions.count)/\(category.transactions.count)")
+//            Self.logger.notice("\(self.category.name) \(self.date.monthID) Category transactions: \(currentMonthTransactions.count)/\(transactions.count)")
             spend = currentMonthTransactions.reduce(into: 0.0) { partialResult, transaction in
                 partialResult += transaction
             }

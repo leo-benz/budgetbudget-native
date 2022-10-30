@@ -14,8 +14,12 @@ import Carbon
 
 class MoneyMoney: ObservableObject {
 
-    private let log = OSLog(subsystem: "app.budgetbudget", category: "MoneyMoney")
-
+    private static let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: MoneyMoney.self))
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: MoneyMoney.self)
+    )
+    
     public var installed: Bool {
 #if os(OSX)
         return executeAppleScript("moneymoneyExists").booleanValue
@@ -67,11 +71,13 @@ class MoneyMoney: ObservableObject {
 
     public func sync() {
 #if os(OSX)
-        os_signpost(.begin, log: log, name: "Sync")
+        Self.logger.notice("Trigger sync")
+        os_signpost(.begin, log: Self.log, name: "Sync")
         let accountsXML = executeAppleScript("exportAccounts").stringValue ?? ""
         let decoder = PropertyListDecoder()
         do {
             let decodedAccounts = try decoder.decode(Hierarchy<Account>.self, from: accountsXML.data(using: .utf8)!)
+            Self.logger.notice("Received \(decodedAccounts.flatElements.count, privacy: .public) Accounts: \(decodedAccounts.flatElements)")
             accounts = decodedAccounts.rootElements
             flatAccounts = decodedAccounts.flatElements
         } catch {
@@ -80,13 +86,14 @@ class MoneyMoney: ObservableObject {
         let categoriesXML = executeAppleScript("exportCategories").stringValue ?? ""
         do {
             let decodedCategories = try decoder.decode(Hierarchy<Category>.self, from: categoriesXML.data(using: .utf8)!)
+            Self.logger.notice("Received \(decodedCategories.flatElements.count, privacy: .public) Categories: \(decodedCategories.flatElements)")
             categories = decodedCategories.rootElements
             flatCategories = decodedCategories.flatElements
         } catch {
             fatalError("Unable to decode categories: \(error)")
         }
         syncTransactions()
-        os_signpost(.end, log: log, name: "Sync")
+        os_signpost(.end, log: Self.log, name: "Sync")
 
 #else
         accounts = []
@@ -95,22 +102,24 @@ class MoneyMoney: ObservableObject {
 
     func syncTransactions() {
 #if os(OSX)
-        os_signpost(.begin, log: log, name: "Sync Transactions")
+        os_signpost(.begin, log: Self.log, name: "Sync Transactions")
         let decoder = PropertyListDecoder()
         let selectedAccounts = flatAccounts!.filter{
             return $0.isSelected
         }
+        Self.logger.notice("Sync Transactions for \(selectedAccounts)")
         for account in selectedAccounts {
             // TODO: Replace with start date defined in budget settings
             let transactionsXML = executeAppleScript("exportTransactions", handler: "exportTransactions", parameters: [account.name, "2022-01-01"]).stringValue!
             do {
                 let decodedTransactions = try decoder.decode(TransactionWrapper.self, from: transactionsXML.data(using: .utf8)!)
+                Self.logger.notice("Received \(decodedTransactions.transactions.count, privacy: .public) Transaction for account \(account.name)")
                 decodedTransactions.transactions.forEach { $0.moneymoney = self }
             } catch {
                 fatalError("Unable to decode transactions: \(error)")
             }
         }
-        os_signpost(.end, log: log, name: "Sync Transactions")
+        os_signpost(.end, log: Self.log, name: "Sync Transactions")
 #endif
     }
 
