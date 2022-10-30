@@ -65,6 +65,7 @@ struct BudgetColumn: View {
                 }.font(category.isGroup ? .subheadline.monospaced() : .body.monospaced())
                     .padding([.vertical], 3)
                     .padding([.top], category.isGroup ? 5 : 0)
+                    .padding(.horizontal)
                     // FIXME: Replace magic number with calculated value from category list
                     .frame(height: category.isGroup ? 24 : 22)
                     .background(Rectangle().foregroundColor(!category.isEven && !category.isGroup ? .secondary.opacity(0.1) : .clear))

@@ -36,6 +36,7 @@
 		2F7611202886FADE005D4183 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76111F2886FADE005D4183 /* SettingsView.swift */; };
 		2F8FD212290C664F00BD5FFB /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */; };
 		2FA671CD290D578E00250C83 /* BudgetBudgetCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671CC290D578E00250C83 /* BudgetBudgetCommands.swift */; };
+		2FA671D1290EA5E600250C83 /* Decoder+Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671D0290EA5E600250C83 /* Decoder+Updatable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		2F76111F2886FADE005D4183 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		2FA671CC290D578E00250C83 /* BudgetBudgetCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetBudgetCommands.swift; sourceTree = "<group>"; };
+		2FA671D0290EA5E600250C83 /* Decoder+Updatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decoder+Updatable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 				2F451CC328A78ABB000CED13 /* Date+Month.swift */,
 				2F451CC528A78C97000CED13 /* String+Format.swift */,
 				2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */,
+				2FA671D0290EA5E600250C83 /* Decoder+Updatable.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -214,7 +217,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					2F7610BB288481E5005D4183 = {
@@ -276,6 +279,7 @@
 				2F070CCB28943DF8000219EE /* Transaction.swift in Sources */,
 				2F070CC528918FB0000219EE /* BudgetHeader.swift in Sources */,
 				2F7611132884AB81005D4183 /* Image+Data.swift in Sources */,
+				2FA671D1290EA5E600250C83 /* Decoder+Updatable.swift in Sources */,
 				2F7611172885B843005D4183 /* Hierarchy.swift in Sources */,
 				2F070CC9289439A6000219EE /* Budget.swift in Sources */,
 				2F7611202886FADE005D4183 /* SettingsView.swift in Sources */,

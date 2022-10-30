@@ -8,7 +8,7 @@
 import Foundation
 
     /// Protocol representing an element of a hierarchical structure
-protocol HierarchyElement<Element>: Decodable, AnyObject {
+protocol HierarchyElement<Element>: Decodable, AnyObject, Equatable, Identifiable {
     associatedtype Element
 
         /// The indentation level of this element
@@ -22,20 +22,31 @@ protocol HierarchyElement<Element>: Decodable, AnyObject {
         /// Parameter:
         ///  - child: The child to append
     func append(child: Element)
+    func clearChildren()
+    func update(from element: Element)
 }
     /// A data structure of recursive hiearachy elements of the same type with multiple root elements
-struct Hierarchy<T: HierarchyElement<T>>: Decodable {
-    let rootElements: [T]
+struct Hierarchy<T: HierarchyElement<T>>: DecoderUpdatable {
+    var rootElements: [T] = []
     var flatElements: [T] = []
 
-    init(from decoder: Decoder) throws {
+    init() {}
+    
+    mutating func update(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
         var currentIndent = -1
         var rootElements: [T] = []
         var tempElements: [T] = []
+        let availableElements = self.flatElements
+        flatElements = []
         
         while !container.isAtEnd {
-            let element = try container.decode(T.self)
+            var element = try container.decode(T.self)
+            if let existingElement = availableElements.first(where: { $0 == element }) {
+                existingElement.clearChildren()
+                existingElement.update(from: element)
+                element = existingElement
+            }
             flatElements.append(element)
             if element.indentation == 0 {
                 rootElements.append(element)

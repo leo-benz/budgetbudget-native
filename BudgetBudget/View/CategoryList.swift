@@ -39,7 +39,7 @@ struct CategoryList: View {
                         .font(.caption.lowercaseSmallCaps())
                 }
             }
-            .padding([.leading], CGFloat(category.indentation) * 15)
+            .padding([.leading], CGFloat(category.indentation) * 15 + 5)
             .padding([.top], category.isGroup ? 5 : 0)
             .padding([.vertical], 3)
             .background(Rectangle().foregroundColor(!category.isEven && !category.isGroup ? .secondary.opacity(0.1) : .clear))
@@ -65,7 +65,7 @@ struct CategoryList: View {
 
         var body: some View {
             DisclosureGroup(isExpanded: $category.isExpanded) {
-                ForEach(category.children!) {
+                ForEach(category.children ?? []) {
                     CategoryRow(category: $0)
                 }
             } label: {
