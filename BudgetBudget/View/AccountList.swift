@@ -28,7 +28,7 @@ struct AccountList: View {
         var isSelectable = false
         
         var body: some View {
-            if account.isGroup || !isSelectable {
+            if account.isGroup || account.isPortfolio || !isSelectable {
                 AccountRowContent(account: account)
             } else {
                 Toggle(isOn: Binding(get: {
