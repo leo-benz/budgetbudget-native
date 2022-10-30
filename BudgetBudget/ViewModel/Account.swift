@@ -8,9 +8,33 @@
 import Foundation
 import SwiftUI
 import Combine
+import os
 
 class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
+    func clearChildren() {
+        children = nil
+    }
+    
+    func update(from element: Account) {
+        self.name = element.name
+        self.indentation = element.indentation
+        self.isPortfolio = element.isPortfolio
+        self.owner = element.owner
+        self.icon = element.icon
+        self.isGroup = element.isGroup
+        self.currency = element.currency
+        self.bankCode = element.bankCode
+        self.attributes = element.attributes
+        self.accountNumber = element.accountNumber
+        self.balance = element.balance
+    }
+    
     typealias Element = Account
+    
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: Account.self)
+    )
     
     static func == (lhs: Account, rhs: Account) -> Bool {
         lhs.id == rhs.id
@@ -70,7 +94,7 @@ class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifi
     }
     
     private var subscribers: Set<AnyCancellable> = []
-
+    
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try container.decode(String.self, forKey: .name)
@@ -87,24 +111,26 @@ class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifi
         self.balance = try container.decode([Account.Money].self, forKey: .balance)
         
         isSelected = UserDefaults.standard.bool(forKey: "Account-\(self.id):Selected")
-        $isSelected.sink { isSelected in
-            UserDefaults.standard.set(isSelected, forKey: "Account-\(self.id):Selected")
+        $isSelected.sink { [weak self] isSelected in
+            if let self = self {
+                UserDefaults.standard.set(isSelected, forKey: "Account-\(self.id):Selected")
+            }
         }.store(in: &subscribers)
     }
     
     // From MoneyMoney
-    let name: String
-    let indentation: Int
+    var name: String
+    var indentation: Int
     let id: UUID
-    let isPortfolio: Bool
-    let owner: String
-    let icon: Data
-    let isGroup: Bool
-    let currency: String
-    let bankCode: String
-    let attributes: [String: String]
-    let accountNumber: String
-    let balance: [Money]
+    var isPortfolio: Bool
+    var owner: String
+    var icon: Data
+    var isGroup: Bool
+    var currency: String
+    var bankCode: String
+    var attributes: [String: String]
+    var accountNumber: String
+    var balance: [Money]
     
     enum CodingKeys: String, CodingKey {
         case name

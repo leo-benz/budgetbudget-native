@@ -9,6 +9,20 @@ import Foundation
 import SwiftUI
 
 class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
+    func clearChildren() {
+        children = nil
+    }
+    
+    func update(from element: Category) {
+        self.indentation = element.indentation
+        self.name = element.name
+        self.icon = element.icon
+        self.currency = element.currency
+        self.isDefault = element.isDefault
+        self.budget = element.budget
+        self.isGroup = element.isGroup
+    }
+    
     typealias Element = Category
 
     static func == (lhs: Category, rhs: Category) -> Bool {
@@ -50,16 +64,16 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
         children!.append(child)
     }
 
-    let indentation: Int
-    let name: String
+    @Published var indentation: Int
+    @Published var name: String
     let id: UUID
-    let icon: Data
-    let currency: String
-    let isDefault: Bool
-    let budget: Category.Budget?
-    let isGroup: Bool
+    @Published var icon: Data
+    var currency: String
+    @Published var isDefault: Bool
+    var budget: Category.Budget?
+    var isGroup: Bool
     var isIncome = false
-    var isEven: Bool = false
+    @Published var isEven: Bool = false
 
     @Published var isExpanded = true {
         didSet {

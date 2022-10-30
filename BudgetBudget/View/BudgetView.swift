@@ -38,7 +38,7 @@ struct BudgetView: View {
                         Divider()
                         ForEach(displayedMonthIDs, id: \.self) { monthID in
                             Divider()
-                            BudgetColumn(budget: budget.budgetFor(date: Date(monthID: monthID))).frame(maxWidth: .infinity).padding(.horizontal)
+                            BudgetColumn(budget: budget.budgetFor(date: Date(monthID: monthID))).frame(maxWidth: .infinity)
                         }
                     }
                     .frame(minHeight: scrollGeo.size.height)

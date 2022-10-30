@@ -28,6 +28,7 @@ class MoneyMoney: ObservableObject {
 #endif
     }
     
+    private var accountHierarchy = Hierarchy<Account>()
     @Published public var accounts: [Account]?
     @Published public var flatAccounts: [Account]? {
         didSet {
@@ -40,6 +41,8 @@ class MoneyMoney: ObservableObject {
             }
         }
     }
+    
+    private var categoryHierarchy = Hierarchy<Category>()
     @Published public var categories: [Category]? {
         didSet {
             categories?.enumerated().forEach{ $0.element.isEven = $0.offset % 2 != 0}
@@ -76,19 +79,19 @@ class MoneyMoney: ObservableObject {
         let accountsXML = executeAppleScript("exportAccounts").stringValue ?? ""
         let decoder = PropertyListDecoder()
         do {
-            let decodedAccounts = try decoder.decode(Hierarchy<Account>.self, from: accountsXML.data(using: .utf8)!)
-            Self.logger.notice("Received \(decodedAccounts.flatElements.count, privacy: .public) Accounts: \(decodedAccounts.flatElements)")
-            accounts = decodedAccounts.rootElements
-            flatAccounts = decodedAccounts.flatElements
+            try decoder.update(&accountHierarchy, from: accountsXML.data(using: .utf8)!)
+            Self.logger.notice("Received \(self.accountHierarchy.flatElements.count, privacy: .public) Accounts: \(self.accountHierarchy.flatElements)")
+            accounts = accountHierarchy.rootElements
+            flatAccounts = accountHierarchy.flatElements
         } catch {
             fatalError("Unable to decode accounts: \(error)")
         }
         let categoriesXML = executeAppleScript("exportCategories").stringValue ?? ""
         do {
-            let decodedCategories = try decoder.decode(Hierarchy<Category>.self, from: categoriesXML.data(using: .utf8)!)
-            Self.logger.notice("Received \(decodedCategories.flatElements.count, privacy: .public) Categories: \(decodedCategories.flatElements)")
-            categories = decodedCategories.rootElements
-            flatCategories = decodedCategories.flatElements
+            try decoder.update(&categoryHierarchy, from: categoriesXML.data(using: .utf8)!)
+            Self.logger.notice("Received \(self.categoryHierarchy.flatElements.count, privacy: .public) Categories: \(self.categoryHierarchy.flatElements)")
+            categories = categoryHierarchy.rootElements
+            flatCategories = categoryHierarchy.flatElements
         } catch {
             fatalError("Unable to decode categories: \(error)")
         }
