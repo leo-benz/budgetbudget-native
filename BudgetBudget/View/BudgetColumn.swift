@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BudgetColumn: View {
-    @ObservedObject var budget: Budget.MonthlyBudget
+    @ObservedObject var budget: MonthlyBudget
 
     var body: some View {
         VStack(spacing: 0) {
@@ -20,12 +20,13 @@ struct BudgetColumn: View {
     }
 
     struct BudgetRow: View {
-        @ObservedObject var categoryBudget: Budget.CategoryBudget
+        @ObservedObject var categoryBudget: CategoryBudget
         @ObservedObject var category: Category
 
         @State private var hovered = false
         @FocusState private var isFocused: Bool
-
+        @State private var editing = false
+        
         private let numberFormatter: NumberFormatter = {
             let formatter = NumberFormatter()
             formatter.numberStyle = .decimal
@@ -46,15 +47,34 @@ struct BudgetColumn: View {
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
                     } else {
-                        // FIXME: The Textfield here is severly degrading startup performance
-                        Text("\(categoryBudget.budgeted, specifier: "%.2f")")
-//                        TextField("Budgeted", value: $categoryBudget.budgeted, format: .number.precision(.fractionLength(2)))
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-//                            .textFieldStyle(.plain).multilineTextAlignment(.trailing)
-//                            .onHover { hovered = $0 }
-//                            .focused($isFocused)
-//                            .border(isFocused ? .blue : hovered ? Color.secondary : .clear)
-//                            .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
+                        // FIXME: Ugly hack with bad UX to only generate TextField on press of the Text
+                        if (editing) {
+                            TextField("Budgeted", value: $categoryBudget.budgeted, format: .number.precision(.fractionLength(2)))
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .textFieldStyle(.plain).multilineTextAlignment(.trailing)
+                                .onHover { hovered = $0 }
+                                .focused($isFocused)
+                                .border(isFocused ? .blue : hovered ? Color.secondary : .clear)
+                                .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
+                                .onSubmit {
+                                    editing = false
+                                }
+                                .onChange(of: isFocused) { newValue in
+                                    editing = isFocused
+                                }
+                        } else {
+                            Button {
+                                editing = true
+                                isFocused = true
+                            } label: {
+                                Text("\(categoryBudget.budgeted, specifier: "%.2f")")
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .onHover { hovered = $0 }
+                                    .focused($isFocused)
+                                    .border(isFocused ? .blue : hovered ? Color.secondary : .clear)
+                                    .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
+                            }.buttonStyle(.plain)
+                        }
                     }
                     Text("\(categoryBudget.spend, specifier: "%.2f")")
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -79,7 +99,7 @@ struct BudgetColumn: View {
 struct BudgetColumn_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            BudgetColumn(budget: Budget.MonthlyBudget(date: Date(), budget: Budget()))
+            BudgetColumn(budget: MonthlyBudget(date: Date(), budget: Budget()))
         }.frame(width: 300)
     }
 }

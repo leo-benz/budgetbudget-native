@@ -8,7 +8,7 @@
 import Foundation
 
     /// Protocol representing an element of a hierarchical structure
-protocol HierarchyElement<Element>: Decodable, AnyObject, Equatable, Identifiable {
+protocol HierarchyElement<Element>: Decodable, AnyObject, Identifiable, Updatable {
     associatedtype Element
 
         /// The indentation level of this element
@@ -23,7 +23,14 @@ protocol HierarchyElement<Element>: Decodable, AnyObject, Equatable, Identifiabl
         ///  - child: The child to append
     func append(child: Element)
     func clearChildren()
-    func update(from element: Element)
+}
+
+protocol Updatable: AnyObject, Equatable  {
+    func update(from element: Self)
+}
+
+protocol Deletable {
+    func delete()
 }
     /// A data structure of recursive hiearachy elements of the same type with multiple root elements
 struct Hierarchy<T: HierarchyElement<T>>: DecoderUpdatable {

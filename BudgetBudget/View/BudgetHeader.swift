@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BudgetHeader: View {
-    var budget: Budget.MonthlyBudget
+    var budget: MonthlyBudget
 
     var body: some View {
         VStack (spacing: 10) {
@@ -76,7 +76,7 @@ extension View {
 }
 
 struct BudgetHeader_Previews: PreviewProvider {
-    static var monthlyBudget = Budget.MonthlyBudget(date: Date(), budget: Budget())
+    static var monthlyBudget = MonthlyBudget(date: Date(), budget: Budget())
 
     static var previews: some View {
         BudgetHeader(budget: monthlyBudget).frame(width: 500)

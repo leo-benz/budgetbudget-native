@@ -48,7 +48,7 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
         name
     }
 
-    private (set) var children: [Category]? {
+    @Published private (set) var children: [Category]? {
         didSet {
             children?.enumerated().forEach { $0.element.isEven = $0.offset % 2 != 0}
         }
