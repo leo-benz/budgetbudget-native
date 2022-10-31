@@ -37,6 +37,8 @@
 		2F8FD212290C664F00BD5FFB /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */; };
 		2FA671CD290D578E00250C83 /* BudgetBudgetCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671CC290D578E00250C83 /* BudgetBudgetCommands.swift */; };
 		2FA671D1290EA5E600250C83 /* Decoder+Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671D0290EA5E600250C83 /* Decoder+Updatable.swift */; };
+		2FA671E4290FFE6100250C83 /* CategoryBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671E3290FFE6100250C83 /* CategoryBudget.swift */; };
+		2FA671E6290FFE8F00250C83 /* MonthlyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671E5290FFE8F00250C83 /* MonthlyBudget.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,8 @@
 		2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		2FA671CC290D578E00250C83 /* BudgetBudgetCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetBudgetCommands.swift; sourceTree = "<group>"; };
 		2FA671D0290EA5E600250C83 /* Decoder+Updatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decoder+Updatable.swift"; sourceTree = "<group>"; };
+		2FA671E3290FFE6100250C83 /* CategoryBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBudget.swift; sourceTree = "<group>"; };
+		2FA671E5290FFE8F00250C83 /* MonthlyBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyBudget.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,9 +174,11 @@
 			children = (
 				2F070CCA28943DF8000219EE /* Transaction.swift */,
 				2F070CC8289439A6000219EE /* Budget.swift */,
+				2FA671E5290FFE8F00250C83 /* MonthlyBudget.swift */,
 				2F070CBC288EEFA5000219EE /* Category.swift */,
 				2F76110828849658005D4183 /* MoneyMoney.swift */,
 				2F76110E2884A0C5005D4183 /* Account.swift */,
+				2FA671E3290FFE6100250C83 /* CategoryBudget.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -269,11 +275,13 @@
 				2F3DB1AF288D5C30007B360C /* MonthSelectorView.swift in Sources */,
 				2F070CC728919DC7000219EE /* BudgetView.swift in Sources */,
 				2F2F5406288C48B2006E2FDE /* VisualEffect.swift in Sources */,
+				2FA671E6290FFE8F00250C83 /* MonthlyBudget.swift in Sources */,
 				2F7610C2288481E5005D4183 /* ContentView.swift in Sources */,
 				2F76110928849658005D4183 /* MoneyMoney.swift in Sources */,
 				2F070CC328918FAA000219EE /* BudgetColumn.swift in Sources */,
 				2F2F5404288C4798006E2FDE /* SplashView.swift in Sources */,
 				2F451CC428A78ABB000CED13 /* Date+Month.swift in Sources */,
+				2FA671E4290FFE6100250C83 /* CategoryBudget.swift in Sources */,
 				2F76110F2884A0C5005D4183 /* Account.swift in Sources */,
 				2F451CC628A78C97000CED13 /* String+Format.swift in Sources */,
 				2F070CCB28943DF8000219EE /* Transaction.swift in Sources */,

@@ -7,12 +7,35 @@
 
 import Foundation
 
-struct TransactionWrapper: Decodable {
+struct TransactionWrapper: Decodable, DecoderUpdatable {
+    mutating func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.creator = try container.decode(String.self, forKey: .creator)
+        try container.update(&transactions, forKey: .transactions)
+    }
+    
+    enum CodingKeys: CodingKey {
+        case creator
+        case transactions
+    }
+    
     var creator: String
     var transactions: [Transaction]
 }
 
-public class Transaction: ObservableObject, Decodable, Identifiable, Hashable {
+public class Transaction: ObservableObject, Decodable, Identifiable, Hashable, Updatable, Deletable {
+    func update(from element: Transaction) {
+        self.accountId = element.accountId
+        self.amount = element.amount
+        self.booked = element.booked
+        self.bookingDate = element.bookingDate
+        self.categoryId = element.categoryId
+        self.checkmark = element.checkmark
+        self.currency = element.currency
+        self.name = element.name
+        self.valueDate = element.valueDate
+    }
+    
     public static func == (lhs: Transaction, rhs: Transaction) -> Bool {
         return lhs.id == rhs.id
     }

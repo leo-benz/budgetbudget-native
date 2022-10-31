@@ -28,6 +28,12 @@ class MoneyMoney: ObservableObject {
 #endif
     }
     
+    private var transactionWrapper = TransactionWrapper(creator: "", transactions: []) {
+        didSet {
+            transactionWrapper.transactions.forEach { $0.moneymoney = self }
+        }
+    }
+    
     private var accountHierarchy = Hierarchy<Account>()
     @Published public var accounts: [Account]?
     @Published public var flatAccounts: [Account]? {
@@ -56,7 +62,7 @@ class MoneyMoney: ObservableObject {
         }
     }
 
-    func filtered(categories: [Category]) -> [Category] {
+    static func filtered(categories: [Category]) -> [Category] {
         return categories.filter {
             !$0.isDefault && !$0.isIncome
         }
@@ -115,9 +121,9 @@ class MoneyMoney: ObservableObject {
             // TODO: Replace with start date defined in budget settings
             let transactionsXML = executeAppleScript("exportTransactions", handler: "exportTransactions", parameters: [account.name, "2022-01-01"]).stringValue!
             do {
-                let decodedTransactions = try decoder.decode(TransactionWrapper.self, from: transactionsXML.data(using: .utf8)!)
-                Self.logger.notice("Received \(decodedTransactions.transactions.count, privacy: .public) Transaction for account \(account.name)")
-                decodedTransactions.transactions.forEach { $0.moneymoney = self }
+                try decoder.update(&transactionWrapper, from: transactionsXML.data(using: .utf8)!)
+                Self.logger.notice("Received \(self.transactionWrapper.transactions.count, privacy: .public) Transaction for account \(account.name)")
+//                transactions = decodedTransactions.transactions
             } catch {
                 fatalError("Unable to decode transactions: \(error)")
             }
