@@ -12,13 +12,14 @@ import os
 class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
     var date: Date
     @Published var budgets: [CategoryBudget] = []
-    var uncategorized: Double
-    var budget: Budget
-    private var moneymoney: MoneyMoney
-    private var settings: Budget.Settings
+    @Published var budget: Budget
     
     private var cancellableBag = Set<AnyCancellable>()
-    
+    private var budgetedCancellables = Set<AnyCancellable>()
+    private var balanceCancellables = Set<AnyCancellable>()
+    private var spendCancellables = Set<AnyCancellable>()
+    private var overspendCancellables = Set<AnyCancellable>()
+
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
         category: String(describing: MonthlyBudget.self)
@@ -36,12 +37,10 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
         self.date = date
         self.uncategorized = 0
         self.budget = budget
-        self.settings = budget.settings
-        self.moneymoney = budget.moneymoney
         
         // Must be async because somehow the events get messed up due to the nested recursive initialization of previous months
         DispatchQueue.main.async { [self] in
-            moneymoney.$flatCategories.map { categories in
+            budget.moneymoney.$flatCategories.map { categories in
                 print("CatBudget generator for month \(date.monthID): \(categories.debugDescription)")
                 return MoneyMoney.filtered(categories:categories ?? []).map { category in
                     if let cat = self.budgets.first(where: { $0.category == category }) {
@@ -52,6 +51,60 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
                 }
             }.assign(to: &$budgets)
         }
+        
+        budget.moneymoney.$flatCategories.sink { [self] categories in
+            if let categories = categories {
+                categories.first { $0.isDefault }!.$transactions.map({ transactions in
+                    transactions.filter { $0.bookingDate.sameMonthAs(date)}.reduce(into: 0.0, { partialResult, transaction in
+                        partialResult += transaction
+                    })
+                }).assign(to: &$uncategorized)
+            }
+        }.store(in: &cancellableBag)
+        
+        $budgets.sink { [self] budgets in
+            overspendCancellables.forEach { $0.cancel() }
+            budgets.forEach { budget in
+                if !budget.category.isGroup {
+                    budget.$overspend.sink { [self] newOverspend in
+                        overspend = overspend - budget.overspend + newOverspend
+                    }.store(in: &overspendCancellables)
+                }
+            }
+        }.store(in: &cancellableBag)
+        
+        $budgets.sink { [self] budgets in
+            budgetedCancellables.forEach { $0.cancel() }
+            budgets.forEach { budget in
+                if !budget.category.isGroup {
+                    budget.$budgeted.sink { [self] newBudget in
+                        budgeted = budgeted - budget.budgeted + newBudget
+                    }.store(in: &budgetedCancellables)
+                }
+            }
+        }.store(in: &cancellableBag)
+        
+        $budgets.sink { [self] budgets in
+            balanceCancellables.forEach { $0.cancel() }
+            budgets.forEach { budget in
+                if !budget.category.isGroup {
+                    budget.$available.sink { [self] newAvailable in
+                        balance = balance - budget.available + newAvailable
+                    }.store(in: &balanceCancellables)
+                }
+            }
+        }.store(in: &cancellableBag)
+        
+        $budgets.sink { [self] budgets in
+            spendCancellables.forEach { $0.cancel() }
+            budgets.forEach { budget in
+                if !budget.category.isGroup {
+                    budget.$spend.sink { [self] newSpend in
+                        spend = spend - budget.spend + newSpend
+                    }.store(in: &spendCancellables)
+                }
+            }
+        }.store(in: &cancellableBag)
     }
     
     private var previousMonthToBudget: Double {
@@ -63,52 +116,23 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
     }
     
     var availableFunds: Double {
-        0.0
+        previousMonthToBudget + availableIncome
     }
     
-    var overspend: Double {
-        var overspend = 0.0
-        for budget in budgets {
-            if budget.available < 0 {
-                overspend += abs(budget.available)
-            }
-        }
-        return overspend
-    }
     
     var overspendInPreviousMonth: Double {
         previousBudget?.overspend ?? 0
     }
     
-    var budgeted: Double {
-        var budgeted = 0.0
-        for budget in budgets {
-            budgeted += budget.budgeted
-        }
-        return budgeted
-    }
-    
-    var spend: Double {
-        var spend = 0.0
-        for budget in budgets {
-            if !budget.category.isGroup {
-                spend += budget.spend
-            }
-        }
-        return spend
-    }
-    
-    var balance: Double {
-        var balance = 0.0
-        for budget in budgets {
-            balance += budget.available
-        }
-        return balance
-    }
+    @Published var uncategorized: Double
+    @Published var overspend: Double = 0.0
+    @Published var budgeted: Double = 0.0
+    @Published var balance: Double = 0.0
+    @Published var spend: Double = 0.0
     
     var toBudget: Double {
         var toBudget = availableFunds - budgeted + overspendInPreviousMonth
-        if !settings.ignoreUncategorized {
+        if !budget.settings.ignoreUncategorized {
             toBudget += uncategorized
         }
         return toBudget

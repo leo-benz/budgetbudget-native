@@ -33,6 +33,7 @@ struct SettingsView: View {
             }.formStyle(.grouped)
 
             Form {
+                Toggle("Ignore uncategorized transactions", isOn: $settings.ignoreUncategorized)
                 Section("Income Categories") {
 
                 }
