@@ -23,13 +23,29 @@ struct MonthSelectorView: View {
         self._displayedMonthIDs = displayedMonthIDs
     }
     
+    func monthsFor(year: Int) -> [String] {
+        if year == startDate.year {
+            return Array(MonthSelectorView.months.suffix(from: startDate.month.number-1))
+        } else {
+            return MonthSelectorView.months
+        }
+    }
+    
+    func monthNumbersFor(year: Int) -> [Int] {
+        if year == startDate.year {
+            return Array(startDate.month.number...12)
+        } else {
+            return Array(1...12)
+        }
+    }
+    
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                     ForEach(years, id: \.self) { year in
                         Section {
-                            ForEach(Array(zip(MonthSelectorView.months, Array(1...12).map({
+                            ForEach(Array(zip(monthsFor(year: year), monthNumbersFor(year: year).map({
                                 "\(year)-\(String(format: "%02d", $0))"
                             }))) , id: \.1) { month, id  in
                                 HStack(spacing: 0){
