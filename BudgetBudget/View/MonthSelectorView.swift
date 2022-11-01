@@ -11,19 +11,23 @@ import SwiftUI
 struct MonthSelectorView: View {
     static let months = Calendar.current.shortMonthSymbols
     
-    // Temporary for testing
-    static let years = currentYear...currentYear+10
-    static let currentYear = Calendar.current.dateComponents([.year], from: Date()).year!
-    // ---------------------
-    
+    var years: ClosedRange<Int>
+    var startDate: Date
     @Binding var scrollTarget: String
     @Binding var displayedMonthIDs: [String]
+    
+    init(startDate: Date, scrollTarget: Binding<String>, displayedMonthIDs: Binding<[String]>) {
+        self.startDate = startDate
+        years = startDate.year...Date().year+10
+        self._scrollTarget = scrollTarget
+        self._displayedMonthIDs = displayedMonthIDs
+    }
     
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-                    ForEach(MonthSelectorView.years, id: \.self) { year in
+                    ForEach(years, id: \.self) { year in
                         Section {
                             ForEach(Array(zip(MonthSelectorView.months, Array(1...12).map({
                                 "\(year)-\(String(format: "%02d", $0))"
@@ -55,9 +59,13 @@ struct MonthSelectorView: View {
                     }
                 }
             }.onChange(of: scrollTarget) { newValue in
-                let targetMonth = Date(monthID: newValue)
+                let targetMonth = Date(newValue)
+                var offset = 1
+                if targetMonth.monthID == startDate.monthID {
+                    offset = 0
+                }
                 for i in displayedMonthIDs.indices {
-                    displayedMonthIDs[i] = targetMonth.nextMonth(i-1).monthID
+                    displayedMonthIDs[i] = targetMonth.nextMonth(i-offset).monthID
                 }
                 
                 withAnimation {
@@ -76,7 +84,6 @@ struct MonthSelectorView: View {
 
 struct MonthSelectorView_Previews: PreviewProvider {
     static var previews: some View {
-        MonthSelectorView(scrollTarget: .constant("Jan2023"), displayedMonthIDs: .constant([Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID])).frame(width: 300, height: 30)
-        MonthSelectorView(scrollTarget: .constant("Jan2023"), displayedMonthIDs: .constant([Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID])).preferredColorScheme(.dark).frame(width: 300, height: 30)
+        MonthSelectorView(startDate: Date(), scrollTarget: .constant("Jan2023"), displayedMonthIDs: .constant([Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID])).frame(width: 300, height: 30)
     }
 }

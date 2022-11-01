@@ -22,7 +22,7 @@ struct BudgetView: View {
                 Divider()
                 ForEach(displayedMonthIDs, id: \.self) { monthID in
                     Divider()
-                    BudgetHeader(monthBudget: budget.budgetFor(date: Date(monthID: monthID))!).padding(.horizontal)
+                    BudgetHeader(monthBudget: budget.budgetFor(date: Date(monthID))!).padding(.horizontal)
                 }
             }.fixedSize(horizontal: false, vertical: true)
             Divider()
@@ -38,7 +38,7 @@ struct BudgetView: View {
                         Divider()
                         ForEach(displayedMonthIDs, id: \.self) { monthID in
                             Divider()
-                            BudgetColumn(budget: budget.budgetFor(date: Date(monthID: monthID))!).frame(maxWidth: .infinity)
+                            BudgetColumn(budget: budget.budgetFor(date: Date(monthID))!).frame(maxWidth: .infinity)
                         }
                     }
                     .frame(minHeight: scrollGeo.size.height)
@@ -50,7 +50,7 @@ struct BudgetView: View {
                             _ = displayedMonthIDs.popLast()
                         } else if (newWidth / (colCount + 1)) > 325 {
                             if let lastMonth = displayedMonthIDs.last {
-                                let newMonth = Date(monthID: lastMonth).nextMonth()
+                                let newMonth = Date(lastMonth).nextMonth()
                                 displayedMonthIDs.append(newMonth.monthID)
                             }
                         }

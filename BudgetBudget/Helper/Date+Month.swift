@@ -9,20 +9,14 @@ import Foundation
 
 extension Date {
     init(month: Month, year: Int) {
-        self.init("\(String(withInt: year, leadingZeros: 4))-\(String(withInt: month.rawValue, leadingZeros: 2))-01")
+        self.init("\(String(withInt: year, leadingZeros: 4))-\(String(withInt: month.rawValue, leadingZeros: 2))")
     }
 
     init(_ dateString: String) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        formatter.locale = Locale.current
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withYear, .withMonth, .withDashSeparatorInDate]
         let date = formatter.date(from: dateString)!
         self.init(timeInterval: 0, since: date)
-    }
-    
-    init(monthID: String) {
-        let date = monthID + "-01"
-        self.init(date)
     }
 
     var monthID: String {
@@ -56,7 +50,11 @@ extension Date {
     }
 }
 
-public enum Month: Int {
+public enum Month: Int, Comparable {
+    public static func < (lhs: Month, rhs: Month) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+    
     case January = 1, February, March, April, May, June, July, August, September, October, November, December
 }
 

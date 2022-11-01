@@ -21,7 +21,7 @@ struct ContentView: View {
         BudgetView(moneymoney: moneymoney, budget: budget, displayedMonthIDs: $displayedMonthIDs)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    MonthSelectorView(scrollTarget: $selectedDate, displayedMonthIDs: $displayedMonthIDs)
+                    MonthSelectorView(startDate: budget.settings.startDate, scrollTarget: $selectedDate, displayedMonthIDs: $displayedMonthIDs)
                 }
                 ToolbarItem(placement: .principal) {
                     Button("Today") {
