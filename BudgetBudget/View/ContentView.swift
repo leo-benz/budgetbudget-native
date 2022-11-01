@@ -17,6 +17,14 @@ struct ContentView: View {
     @State var displayedMonthIDs: [String] = [Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID/*, Date().nextMonth().nextMonth().monthID*/]
     @State var selectedDate: String
     
+    init(moneymoney: MoneyMoney, budget: Budget, selectedDate: String) {
+        self.moneymoney = moneymoney
+        self.budget = budget
+        self.selectedDate = selectedDate
+        let initialDate = budget.settings.startDate < Date().previousMonth() ? Date().previousMonth() : budget.settings.startDate
+        displayedMonthIDs = [initialDate.monthID, initialDate.nextMonth().monthID, initialDate.nextMonth(2).monthID]
+    }
+    
     var body: some View {
         BudgetView(moneymoney: moneymoney, budget: budget, displayedMonthIDs: $displayedMonthIDs)
             .toolbar {

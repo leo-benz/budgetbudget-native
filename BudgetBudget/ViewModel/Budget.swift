@@ -46,7 +46,7 @@ class Budget: ObservableObject {
 
     struct Settings: Codable {
         var ignorePendingTransactions = true
-        var startDate = Date()
+        var startDate = Date().previousMonth()
         var startBalance = 0.0
         var currency = "EUR"
         var ignoreUncategorized = false

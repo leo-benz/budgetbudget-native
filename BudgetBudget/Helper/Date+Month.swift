@@ -55,6 +55,10 @@ public enum Month: Int, Comparable {
         lhs.rawValue < rhs.rawValue
     }
     
+    var number: Int {
+        self.rawValue
+    }
+    
     case January = 1, February, March, April, May, June, July, August, September, October, November, December
 }
 
