@@ -32,7 +32,8 @@ class Budget: ObservableObject {
         if let monthlyBudget = monthlyBudget {
             return monthlyBudget
         } else {
-            if date < settings.startDate {
+            // Comparing date directly sometimes failes due to time stored in the date
+            if date.year < settings.startDate.year || (date.year == settings.startDate.year && date.month < settings.startDate.month) {
                 return nil
             } else {
                 let budget = MonthlyBudget(date: date, budget: self)
