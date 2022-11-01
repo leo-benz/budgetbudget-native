@@ -14,6 +14,8 @@ class CategoryBudget: Identifiable, ObservableObject {
     @Published var budgeted: Double = 0
     @Published var spend: Double = 0
     @Published var available: Double = 0
+    @Published var overspend: Double = 0
+    
     var id = UUID()
     private var date: Date
     private var budget: MonthlyBudget
@@ -21,6 +23,7 @@ class CategoryBudget: Identifiable, ObservableObject {
     private var cancellableBag = Set<AnyCancellable>()
     
     private var prevCancellable: AnyCancellable?
+    
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
         category: String(describing: CategoryBudget.self)
@@ -59,14 +62,15 @@ class CategoryBudget: Identifiable, ObservableObject {
                 spend = $0
             }.store(in: &cancellableBag)
             
-            // FIXME: Take previous available into consideration!
-            // budget.previousBudget.budgets.first(where: { $0.category == category })!.$available
             prevCancellable = budget.previousBudget?.$budgets.sink { [self] prevBudgets in
                 if let prevCategory = prevBudgets.first(where: { $0.category == category }) {
                     $spend.combineLatest($budgeted, prevCategory.$available)
                         .map { spent, budgeted, prevMonthAvailable in
                             max(0, prevMonthAvailable) + budgeted + spent
                         }.assign(to: &$available)
+                    $available.map { available in
+                        min(0, available)
+                    }.assign(to: &$overspend)
                     prevCancellable?.cancel()
                 }
             }

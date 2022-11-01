@@ -22,7 +22,7 @@ struct BudgetView: View {
                 Divider()
                 ForEach(displayedMonthIDs, id: \.self) { monthID in
                     Divider()
-                    BudgetHeader(budget: budget.budgetFor(date: Date(monthID: monthID))!).padding(.horizontal)
+                    BudgetHeader(monthBudget: budget.budgetFor(date: Date(monthID: monthID))!).padding(.horizontal)
                 }
             }.fixedSize(horizontal: false, vertical: true)
             Divider()
