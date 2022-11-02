@@ -28,11 +28,7 @@ class MoneyMoney: ObservableObject {
 #endif
     }
     
-    private var transactionWrapper = TransactionWrapper(creator: "", transactions: []) {
-        didSet {
-            transactionWrapper.transactions.forEach { $0.moneymoney = self }
-        }
-    }
+    private var transactionWrappers = [Account: TransactionWrapper]()
     
     private var accountHierarchy = Hierarchy<Account>()
     @Published public var accounts: [Account]?
@@ -121,9 +117,12 @@ class MoneyMoney: ObservableObject {
             // TODO: Replace with start date defined in budget settings
             let transactionsXML = executeAppleScript("exportTransactions", handler: "exportTransactions", parameters: [account.name, "2022-01-01"]).stringValue!
             do {
-                try decoder.update(&transactionWrapper, from: transactionsXML.data(using: .utf8)!)
-                Self.logger.notice("Received \(self.transactionWrapper.transactions.count, privacy: .public) Transaction for account \(account.name)")
-//                transactions = decodedTransactions.transactions
+                if transactionWrappers[account] == nil {
+                    transactionWrappers[account] = TransactionWrapper(creator: "", transactions: [])
+                }
+                try decoder.update(&transactionWrappers[account]!, from: transactionsXML.data(using: .utf8)!)
+                transactionWrappers[account]!.transactions.forEach { $0.moneymoney = self }
+                Self.logger.notice("Received \(self.transactionWrappers[account]!.transactions.count, privacy: .public) Transaction for account \(account.name)")
             } catch {
                 fatalError("Unable to decode transactions: \(error)")
             }
