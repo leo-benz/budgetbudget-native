@@ -17,7 +17,7 @@ struct BudgetBudgetApp: App {
             ContentView(moneymoney: budget.moneymoney, budget: budget, selectedDate: Date().monthID).onAppear {
                 NSWindow.allowsAutomaticWindowTabbing = false
                 budget.moneymoney.sync()
-            }
+            }.frame(minWidth: 800, maxWidth: .infinity, minHeight: 500, maxHeight: .infinity)
         }
         .windowStyle(.titleBar)
         .windowToolbarStyle(.unifiedCompact)
