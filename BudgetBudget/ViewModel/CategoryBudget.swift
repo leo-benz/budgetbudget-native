@@ -74,6 +74,16 @@ class CategoryBudget: Identifiable, ObservableObject {
                     prevCancellable?.cancel()
                 }
             }
+            
+            // Must be initiallied later so that categroies are initialized to pick up the initial value
+            DispatchQueue.main.async { [self] in
+                budgeted = UserDefaults.standard.double(forKey: "Category-\(self.category.id)-\(self.date.monthID):Budgeted")
+                $budgeted.sink { [weak self] budgeted in
+                    if let self = self {
+                        UserDefaults.standard.set(budgeted, forKey: "Category-\(self.category.id)-\(self.date.monthID):Budgeted")
+                    }
+                }.store(in: &cancellableBag)
+            }
         }
     }
 }
