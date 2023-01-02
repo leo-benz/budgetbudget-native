@@ -93,7 +93,7 @@ class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifi
         children!.append(child)
     }
     
-    private var subscribers: Set<AnyCancellable> = []
+    private var cancellableBag: Set<AnyCancellable> = []
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -115,7 +115,7 @@ class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifi
             if let self = self {
                 UserDefaults.standard.set(isSelected, forKey: "Account-\(self.id):Selected")
             }
-        }.store(in: &subscribers)
+        }.store(in: &cancellableBag)
     }
     
     // From MoneyMoney
