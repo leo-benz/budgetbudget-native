@@ -7,8 +7,9 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
-class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
+class Category: SelectableListEntry, Decodable, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {    
     func clearChildren() {
         children = nil
     }
@@ -24,18 +25,18 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
     }
     
     typealias Element = Category
-
+    
     static func == (lhs: Category, rhs: Category) -> Bool {
         lhs.id == rhs.id
     }
-
+    
     struct Budget: Decodable {
         let amount: Double
         let available: Double
         let period: String
     }
-
-
+    
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
@@ -43,20 +44,34 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
     var description: String {
         name
     }
-
+    
     var debugDescription: String {
         name
     }
-
+    
     @Published private (set) var children: [Category]? {
         didSet {
             children?.enumerated().forEach { $0.element.isEven = $0.offset % 2 != 0}
         }
     }
-
+    
     @Published var isSelected = false
     @Published var transactions = Set<Transaction>()
-
+    
+    var isIncome: Bool {
+        get {
+            isSelected
+        }
+        
+        set {
+            isSelected = newValue
+        }
+    }
+    
+    var isSelectable: Bool {
+        !isGroup && !isDefault
+    }
+    
     func append(child: Category) {
         if children == nil {
             children = []
@@ -72,7 +87,6 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
     @Published var isDefault: Bool
     var budget: Category.Budget?
     var isGroup: Bool
-    var isIncome = false
     @Published var isEven: Bool = false
 
     @Published var isExpanded = true {
@@ -97,6 +111,8 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
         case budget
         case isGroup = "group"
     }
+    
+    private var cancellableBag: Set<AnyCancellable> = []
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -108,6 +124,13 @@ class Category: ObservableObject, Decodable, HierarchyElement, Hashable, Identif
         self.isDefault = try container.decode(Bool.self, forKey: .isDefault)
         self.budget = try? container.decodeIfPresent(Category.Budget.self, forKey: .budget)
         self.isGroup = try container.decode(Bool.self, forKey: .isGroup)
+        
+        isSelected = UserDefaults.standard.bool(forKey: "Category-\(self.id):Income")
+        $isSelected.sink { [weak self] isSelected in
+            if let self = self {
+                UserDefaults.standard.set(isSelected, forKey: "Category-\(self.id):Income")
+            }
+        }.store(in: &cancellableBag)
     }
 }
 

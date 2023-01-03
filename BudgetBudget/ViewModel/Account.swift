@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import os
 
-class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
+class Account: SelectableListEntry, Decodable, HierarchyElement, Hashable, Identifiable, CustomStringConvertible, CustomDebugStringConvertible {
     func clearChildren() {
         children = nil
     }
@@ -84,6 +84,10 @@ class Account: ObservableObject, Decodable, HierarchyElement, Hashable, Identifi
                 transactions.forEach { $0.delete() }
             }
         }
+    }
+    
+    var isSelectable: Bool {
+        !isGroup && !isPortfolio
     }
     
     func append(child: Account) {
