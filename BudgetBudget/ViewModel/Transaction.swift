@@ -23,7 +23,11 @@ struct TransactionWrapper: Decodable, DecoderUpdatable {
     var transactions: [Transaction]
 }
 
-public class Transaction: ObservableObject, Decodable, Identifiable, Hashable, Updatable, Deletable {
+public class Transaction: ObservableObject, Decodable, Identifiable, Hashable, Updatable, Deletable, CustomDebugStringConvertible {
+    public var debugDescription: String {
+        "\(name) - \(bookingDate): \(amount)"
+    }
+    
     func update(from element: Transaction) {
         self.accountId = element.accountId
         self.amount = element.amount

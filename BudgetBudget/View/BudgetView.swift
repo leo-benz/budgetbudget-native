@@ -29,7 +29,7 @@ struct BudgetView: View {
             GeometryReader { scrollGeo in
                 ScrollView(.vertical) {
                     HStack(spacing: 0) {
-                        CategoryList(categories: moneymoney.filteredCategories)
+                        CategoryList(categories: moneymoney.categories)
                             .background(VisualEffect(material: .sidebar, blendingMode: .behindWindow))
                             .fixedSize(horizontal: true, vertical: false)
                             .overlay(WidthGeometry())

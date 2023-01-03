@@ -35,7 +35,10 @@ struct SettingsView: View {
             Form {
                 Toggle("Ignore uncategorized transactions", isOn: $settings.ignoreUncategorized)
                 LabeledContent("Income Categories") {
-                    CategorySelectableList(rootEntries: moneymoney.categories, isSelectionEnabled: true)
+                    CategorySelectableList(rootEntries: moneymoney.categories, isSelectionEnabled: true, updateCallback: { _ in
+                        // TODO: This is a quick solution now to trigger a complete sync to update. There should be a cleaner and more efficient way to only update what is needed.
+                        moneymoney.sync()
+                    })
                         .listStyle(.bordered)
                 }
             }.tabItem {

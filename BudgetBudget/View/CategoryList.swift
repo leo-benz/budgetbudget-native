@@ -13,7 +13,7 @@ struct CategoryList: View {
     var body: some View {
         if let categories = categories {
             VStack(spacing: 0) {
-                ForEach(categories) {
+                ForEach(categories.filter { !$0.isDefault && !$0.isIncome }) {
                     CategoryRow(category: $0)
                 }
                 Spacer()
@@ -65,7 +65,7 @@ struct CategoryList: View {
 
         var body: some View {
             DisclosureGroup(isExpanded: $category.isExpanded) {
-                ForEach(category.children ?? []) {
+                ForEach(category.children?.filter { !$0.isDefault && !$0.isIncome } ?? []) {
                     CategoryRow(category: $0)
                 }
             } label: {

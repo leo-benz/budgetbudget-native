@@ -19,6 +19,7 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
     private var balanceCancellables = Set<AnyCancellable>()
     private var spendCancellables = Set<AnyCancellable>()
     private var overspendCancellables = Set<AnyCancellable>()
+    private var incomeCancellables = Set<AnyCancellable>()
 
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
@@ -33,6 +34,8 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
         budget.budgetFor(date: date.previousMonth())
     }
     
+    @Published private var categoryIncomes: [Category: Double] = [:]
+    
     init(date: Date, budget: Budget) {
         self.date = date
         self.uncategorized = 0
@@ -41,7 +44,6 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
         // Must be async because somehow the events get messed up due to the nested recursive initialization of previous months
         DispatchQueue.main.async { [self] in
             budget.moneymoney.$flatCategories.map { categories in
-                print("CatBudget generator for month \(date.monthID): \(categories.debugDescription)")
                 return MoneyMoney.filtered(categories:categories ?? []).map { category in
                     if let cat = self.budgets.first(where: { $0.category == category }) {
                         return cat
@@ -64,6 +66,7 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
         
         $budgets.sink { [self] budgets in
             overspendCancellables.forEach { $0.cancel() }
+            overspendCancellables.removeAll()
             budgets.forEach { budget in
                 if !budget.category.isGroup {
                     budget.$overspend.sink { [self] newOverspend in
@@ -75,6 +78,7 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
         
         $budgets.sink { [self] budgets in
             budgetedCancellables.forEach { $0.cancel() }
+            budgetedCancellables.removeAll()
             budgets.forEach { budget in
                 if !budget.category.isGroup {
                     budget.$budgeted.sink { [self] newBudget in
@@ -86,6 +90,7 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
         
         $budgets.sink { [self] budgets in
             balanceCancellables.forEach { $0.cancel() }
+            balanceCancellables.removeAll()
             budgets.forEach { budget in
                 if !budget.category.isGroup {
                     budget.$available.sink { [self] newAvailable in
@@ -97,6 +102,7 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
         
         $budgets.sink { [self] budgets in
             spendCancellables.forEach { $0.cancel() }
+            spendCancellables.removeAll()
             budgets.forEach { budget in
                 if !budget.category.isGroup {
                     budget.$spend.sink { [self] newSpend in
@@ -106,14 +112,28 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
             }
         }.store(in: &cancellableBag)
         
-        budget.moneymoney.$flatCategories.sink { [self] categories in
-            if let categories = categories {
-                categories.first { $0.isIncome }!.$transactions.map({ transactions in
-                    transactions.filter { $0.bookingDate.sameMonthAs(date.previousMonth())}.reduce(into: 0.0, { partialResult, transaction in
-                        partialResult += transaction
-                    })
-                }).assign(to: &$availableIncome)
+        budget.moneymoney.$flatCategories
+            .compactMap { optionalCategories in optionalCategories }.sink { [self] categories in
+                categoryIncomes.removeAll()
+                incomeCancellables.forEach { $0.cancel() }
+                incomeCancellables.removeAll()
+                categories.filter { $0.isIncome }.forEach { category in
+                    category.$transactions.sink { transactions in
+                        transactions.publisher
+                            .filter { transaction in transaction.bookingDate.sameMonthAs(date.previousMonth()) }
+                            .reduce(0.0, +)
+                            .sink { [self] in
+                                categoryIncomes[category] = $0
+                            }
+                    }.store(in: &incomeCancellables)
+                }
+            }.store(in: &cancellableBag)
+        
+        $categoryIncomes.sink { [self] in
+            if (date.monthID == "2023-02") {
+                print("Calculate category incomes: \($0)")
             }
+            $0.values.publisher.reduce(0.0, +).assign(to: &$availableIncome)
         }.store(in: &cancellableBag)
     }
     
