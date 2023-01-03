@@ -9,7 +9,11 @@ import Foundation
 import Combine
 import os
 
-class CategoryBudget: Identifiable, ObservableObject, Hashable {
+class CategoryBudget: Identifiable, ObservableObject, Hashable, CustomDebugStringConvertible {
+    var debugDescription: String {
+        "\(category.name) \(category.isGroup ? "(G)" : ""): \(date.monthID)"
+    }
+    
     static func == (lhs: CategoryBudget, rhs: CategoryBudget) -> Bool {
         lhs.id == rhs.id
     }
@@ -29,6 +33,7 @@ class CategoryBudget: Identifiable, ObservableObject, Hashable {
     private var budget: MonthlyBudget
     
     private var cancellableBag = Set<AnyCancellable>()
+    private var childCancellableBag = [CategoryBudget: Set<AnyCancellable>]()
     
     private var prevCancellable: AnyCancellable?
     
@@ -38,27 +43,41 @@ class CategoryBudget: Identifiable, ObservableObject, Hashable {
     )
     
     init(category: Category, date: Date, budget: MonthlyBudget) {
-        //            Self.logger.debug("Init Category \(category) \(date)")
         self.category = category
         self.date = date
         self.available = 0
         self.budget = budget
         if category.isGroup {
-            budget.$budgets.sink { budgets in
-                self.cancellableBag.forEach { $0.cancel() }
-                category.children?.forEach({ child in
-                    if let childBudget = budgets.first(where: { $0.category == child }) {
-                        childBudget.$budgeted.sink {
-                            self.budgeted = self.budgeted - childBudget.budgeted + $0
-                        }.store(in: &self.cancellableBag)
-                        childBudget.$spend.sink {
-                            self.spend = self.spend - childBudget.spend + $0
-                        }.store(in: &self.cancellableBag)
-                        childBudget.$available.sink {
-                            self.available = self.available - childBudget.available + $0
-                        }.store(in: &self.cancellableBag)
+            budget.$budgets.sink { [self] budgets in
+                let childBudgets = budgets.filter { budget in category.children?.contains{ child in budget.category == child} ?? false}
+                let removedBudgets = childCancellableBag.filter { !childBudgets.contains($0.key) }
+                removedBudgets.forEach { removedBudget in
+                    removedBudget.value.forEach { $0.cancel()}
+                    childCancellableBag.removeValue(forKey: removedBudget.key)
+                    budgeted = budgeted - removedBudget.key.budgeted
+                    spend = spend - removedBudget.key.spend
+                    available = available - removedBudget.key.available
+                }
+                
+                let newBudgets = childBudgets.filter { childCancellableBag[$0] == nil }
+                newBudgets.forEach { budget in
+                    budgeted = budgeted + budget.budgeted
+                    spend = spend + budget.spend
+                    available = available + budget.available
+                    
+                    let budgetedSink = budget.$budgeted.sink { [self] newBudgeted in
+                        budgeted = budgeted - budget.budgeted + newBudgeted
                     }
-                })
+                    
+                    let spendSink = budget.$spend.sink { [self] newSpend in
+                        spend = spend - budget.spend + newSpend
+                    }
+                    
+                    let availableSink = budget.$available.sink { [self] newAvailable in
+                        available = available - budget.available + newAvailable
+                    }
+                    childCancellableBag[budget] = [budgetedSink, spendSink, availableSink]
+                }
             }.store(in: &cancellableBag)
         } else {
             category.$transactions.map { transactions in
