@@ -25,7 +25,7 @@ struct TransactionWrapper: Decodable, DecoderUpdatable {
 
 public class Transaction: ObservableObject, Decodable, Identifiable, Hashable, Updatable, Deletable, CustomDebugStringConvertible {
     public var debugDescription: String {
-        "\(name) - \(bookingDate): \(amount)"
+        "\(String(describing: name)) - \(bookingDate): \(amount)"
     }
     
     func update(from element: Transaction) {
