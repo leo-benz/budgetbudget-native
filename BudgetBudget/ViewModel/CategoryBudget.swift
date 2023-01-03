@@ -9,7 +9,15 @@ import Foundation
 import Combine
 import os
 
-class CategoryBudget: Identifiable, ObservableObject {
+class CategoryBudget: Identifiable, ObservableObject, Hashable {
+    static func == (lhs: CategoryBudget, rhs: CategoryBudget) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     var category: Category
     @Published var budgeted: Double = 0
     @Published var spend: Double = 0

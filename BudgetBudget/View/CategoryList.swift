@@ -13,7 +13,7 @@ struct CategoryList: View {
     var body: some View {
         if let categories = categories {
             VStack(spacing: 0) {
-                ForEach(categories.filter { !$0.isDefault && !$0.isIncome }) {
+                ForEach(categories) {
                     CategoryRow(category: $0)
                 }
                 Spacer()

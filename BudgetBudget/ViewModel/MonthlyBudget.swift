@@ -15,10 +15,10 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
     @Published var budget: Budget
     
     private var cancellableBag = Set<AnyCancellable>()
-    private var budgetedCancellables = Set<AnyCancellable>()
-    private var balanceCancellables = Set<AnyCancellable>()
-    private var spendCancellables = Set<AnyCancellable>()
-    private var overspendCancellables = Set<AnyCancellable>()
+    private var budgetedCancellables = [CategoryBudget: AnyCancellable]()
+    private var balanceCancellables = [CategoryBudget: AnyCancellable]()
+    private var spendCancellables = [CategoryBudget: AnyCancellable]()
+    private var overspendCancellables = [CategoryBudget: AnyCancellable]()
     private var incomeCancellables = Set<AnyCancellable>()
 
     private static let logger = Logger(
@@ -65,50 +65,74 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
         }.store(in: &cancellableBag)
         
         $budgets.sink { [self] budgets in
-            overspendCancellables.forEach { $0.cancel() }
-            overspendCancellables.removeAll()
-            budgets.forEach { budget in
-                if !budget.category.isGroup {
-                    budget.$overspend.sink { [self] newOverspend in
-                        overspend = overspend - budget.overspend + newOverspend
-                    }.store(in: &overspendCancellables)
+            let removedBudgets = overspendCancellables.filter { !budgets.contains($0.key) }
+            removedBudgets.forEach {
+                $0.value.cancel()
+                overspendCancellables.removeValue(forKey: $0.key)
+                overspend = overspend - $0.key.overspend
+            }
+            
+            let newBudgets = budgets.filter { overspendCancellables[$0] == nil && !$0.category.isGroup}
+            newBudgets.forEach { budget in
+                overspend = overspend + budget.overspend
+                let sink = budget.$overspend.sink { [self] newOverspend in
+                    overspend = overspend - budget.overspend + newOverspend
                 }
+                overspendCancellables[budget] = sink
             }
         }.store(in: &cancellableBag)
         
         $budgets.sink { [self] budgets in
-            budgetedCancellables.forEach { $0.cancel() }
-            budgetedCancellables.removeAll()
-            budgets.forEach { budget in
-                if !budget.category.isGroup {
-                    budget.$budgeted.sink { [self] newBudget in
-                        budgeted = budgeted - budget.budgeted + newBudget
-                    }.store(in: &budgetedCancellables)
+            let removedBudgets = budgetedCancellables.filter { !budgets.contains($0.key) }
+            removedBudgets.forEach {
+                $0.value.cancel()
+                budgetedCancellables.removeValue(forKey: $0.key)
+                budgeted = budgeted - $0.key.budgeted
+            }
+            
+            let newBudgets = budgets.filter { budgetedCancellables[$0] == nil && !$0.category.isGroup}
+            newBudgets.forEach { budget in
+                budgeted = budgeted + budget.budgeted
+                let sink = budget.$budgeted.sink { [self] newBudget in
+                    budgeted = budgeted - budget.budgeted + newBudget
                 }
+                budgetedCancellables[budget] = sink
             }
         }.store(in: &cancellableBag)
         
         $budgets.sink { [self] budgets in
-            balanceCancellables.forEach { $0.cancel() }
-            balanceCancellables.removeAll()
-            budgets.forEach { budget in
-                if !budget.category.isGroup {
-                    budget.$available.sink { [self] newAvailable in
-                        balance = balance - budget.available + newAvailable
-                    }.store(in: &balanceCancellables)
+            let removedBudgets = balanceCancellables.filter { !budgets.contains($0.key) }
+            removedBudgets.forEach {
+                $0.value.cancel()
+                balanceCancellables.removeValue(forKey: $0.key)
+                balance = balance - $0.key.available
+            }
+            
+            let newBudgets = budgets.filter { balanceCancellables[$0] == nil && !$0.category.isGroup}
+            newBudgets.forEach { budget in
+                balance = balance + budget.available
+                let sink = budget.$available.sink { [self] newAvailable in
+                    balance = balance - budget.available + newAvailable
                 }
+                balanceCancellables[budget] = sink
             }
         }.store(in: &cancellableBag)
         
         $budgets.sink { [self] budgets in
-            spendCancellables.forEach { $0.cancel() }
-            spendCancellables.removeAll()
-            budgets.forEach { budget in
-                if !budget.category.isGroup {
-                    budget.$spend.sink { [self] newSpend in
-                        spend = spend - budget.spend + newSpend
-                    }.store(in: &spendCancellables)
+            let removedBudgets = spendCancellables.filter { !budgets.contains($0.key) }
+            removedBudgets.forEach {
+                $0.value.cancel()
+                spendCancellables.removeValue(forKey: $0.key)
+                spend = spend - $0.key.spend
+            }
+            
+            let newBudgets = budgets.filter { spendCancellables[$0] == nil && !$0.category.isGroup}
+            newBudgets.forEach { budget in
+                spend = spend + budget.spend
+                let sink = budget.$spend.sink { [self] newSpend in
+                    spend = spend - budget.spend + newSpend
                 }
+                spendCancellables[budget] = sink
             }
         }.store(in: &cancellableBag)
         
@@ -130,9 +154,6 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
             }.store(in: &cancellableBag)
         
         $categoryIncomes.sink { [self] in
-            if (date.monthID == "2023-02") {
-                print("Calculate category incomes: \($0)")
-            }
             $0.values.publisher.reduce(0.0, +).assign(to: &$availableIncome)
         }.store(in: &cancellableBag)
     }
