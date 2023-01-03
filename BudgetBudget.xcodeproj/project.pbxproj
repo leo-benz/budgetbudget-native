@@ -32,13 +32,13 @@
 		2F76110F2884A0C5005D4183 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76110E2884A0C5005D4183 /* Account.swift */; };
 		2F7611132884AB81005D4183 /* Image+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7611122884AB81005D4183 /* Image+Data.swift */; };
 		2F7611172885B843005D4183 /* Hierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7611162885B843005D4183 /* Hierarchy.swift */; };
-		2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76111B2885D2CA005D4183 /* AccountList.swift */; };
 		2F7611202886FADE005D4183 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F76111F2886FADE005D4183 /* SettingsView.swift */; };
 		2F8FD212290C664F00BD5FFB /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */; };
 		2FA671CD290D578E00250C83 /* BudgetBudgetCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671CC290D578E00250C83 /* BudgetBudgetCommands.swift */; };
 		2FA671D1290EA5E600250C83 /* Decoder+Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671D0290EA5E600250C83 /* Decoder+Updatable.swift */; };
 		2FA671E4290FFE6100250C83 /* CategoryBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671E3290FFE6100250C83 /* CategoryBudget.swift */; };
 		2FA671E6290FFE8F00250C83 /* MonthlyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA671E5290FFE8F00250C83 /* MonthlyBudget.swift */; };
+		2FC375E82964317400291869 /* SelectableSettingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC375E72964317400291869 /* SelectableSettingsList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,13 +75,13 @@
 		2F76110E2884A0C5005D4183 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		2F7611122884AB81005D4183 /* Image+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Data.swift"; sourceTree = "<group>"; };
 		2F7611162885B843005D4183 /* Hierarchy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hierarchy.swift; sourceTree = "<group>"; };
-		2F76111B2885D2CA005D4183 /* AccountList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountList.swift; sourceTree = "<group>"; };
 		2F76111F2886FADE005D4183 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2F8FD211290C664F00BD5FFB /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		2FA671CC290D578E00250C83 /* BudgetBudgetCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetBudgetCommands.swift; sourceTree = "<group>"; };
 		2FA671D0290EA5E600250C83 /* Decoder+Updatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decoder+Updatable.swift"; sourceTree = "<group>"; };
 		2FA671E3290FFE6100250C83 /* CategoryBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBudget.swift; sourceTree = "<group>"; };
 		2FA671E5290FFE8F00250C83 /* MonthlyBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyBudget.swift; sourceTree = "<group>"; };
+		2FC375E72964317400291869 /* SelectableSettingsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableSettingsList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,7 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				2F76111F2886FADE005D4183 /* SettingsView.swift */,
-				2F76111B2885D2CA005D4183 /* AccountList.swift */,
+				2FC375E72964317400291869 /* SelectableSettingsList.swift */,
 				2F070CC0288EF919000219EE /* CategoryList.swift */,
 				2F070CC228918FAA000219EE /* BudgetColumn.swift */,
 				2F070CC428918FB0000219EE /* BudgetHeader.swift */,
@@ -292,8 +292,8 @@
 				2F070CC9289439A6000219EE /* Budget.swift in Sources */,
 				2F7611202886FADE005D4183 /* SettingsView.swift in Sources */,
 				2F8FD212290C664F00BD5FFB /* UserDefaults+Codable.swift in Sources */,
+				2FC375E82964317400291869 /* SelectableSettingsList.swift in Sources */,
 				2F070CC1288EF919000219EE /* CategoryList.swift in Sources */,
-				2F76111C2885D2CA005D4183 /* AccountList.swift in Sources */,
 				2FA671CD290D578E00250C83 /* BudgetBudgetCommands.swift in Sources */,
 				2F7610C0288481E5005D4183 /* BudgetBudgetApp.swift in Sources */,
 				2F070CBD288EEFA5000219EE /* Category.swift in Sources */,

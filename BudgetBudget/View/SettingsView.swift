@@ -26,7 +26,7 @@ struct SettingsView: View {
                         .alignmentGuide(.controlAlignment) { $0[.leading] }
                     Stepper("Starting Balance", value: $settings.startBalance, step: 1).labelsHidden()
                         .padding([.trailing])
-                    Button("Re-Calculate") { }
+//                    Button("Re-Calculate") { }
                 }.alignmentGuide(.leading) { $0[.controlAlignment] }
             }.tabItem {
                 Label("General", systemImage: "gear")
@@ -34,8 +34,9 @@ struct SettingsView: View {
 
             Form {
                 Toggle("Ignore uncategorized transactions", isOn: $settings.ignoreUncategorized)
-                Section("Income Categories") {
-
+                LabeledContent("Income Categories") {
+                    CategorySelectableList(rootEntries: moneymoney.categories, isSelectionEnabled: true)
+                        .listStyle(.bordered)
                 }
             }.tabItem {
                 Label("Categories", systemImage: "bookmark")
@@ -44,7 +45,7 @@ struct SettingsView: View {
             Form {
                 Toggle("Ignore pending transactions", isOn: $settings.ignorePendingTransactions)
                 LabeledContent("Tracked Accounts") {
-                    AccountList(accounts: moneymoney.accounts, isSelectable: true)
+                    AccountSelectableList(rootEntries: moneymoney.accounts, isSelectionEnabled: true)
                         .listStyle(.bordered)
                 }
             }.tabItem {
