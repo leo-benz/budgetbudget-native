@@ -105,15 +105,23 @@ class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
                 }
             }
         }.store(in: &cancellableBag)
+        
+        budget.moneymoney.$flatCategories.sink { [self] categories in
+            if let categories = categories {
+                categories.first { $0.isIncome }!.$transactions.map({ transactions in
+                    transactions.filter { $0.bookingDate.sameMonthAs(date.previousMonth())}.reduce(into: 0.0, { partialResult, transaction in
+                        partialResult += transaction
+                    })
+                }).assign(to: &$availableIncome)
+            }
+        }.store(in: &cancellableBag)
     }
     
     private var previousMonthToBudget: Double {
         previousBudget?.toBudget ?? 0
     }
     
-    private var availableIncome: Double {
-        0.0
-    }
+    @Published private var availableIncome: Double = 0.0
     
     var availableFunds: Double {
         previousMonthToBudget + availableIncome

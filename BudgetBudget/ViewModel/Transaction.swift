@@ -76,7 +76,7 @@ public class Transaction: ObservableObject, Decodable, Identifiable, Hashable, U
     var checkmark: Bool
     var currency: String
     public var id: Int
-    var name: String
+    var name: String?
     var valueDate: Date
 
     var moneymoney: MoneyMoney? {
@@ -116,7 +116,7 @@ public class Transaction: ObservableObject, Decodable, Identifiable, Hashable, U
         self.checkmark = try container.decode(Bool.self, forKey: .checkmark)
         self.currency = try container.decode(String.self, forKey: .currency)
         self.id = try container.decode(Int.self, forKey: .id)
-        self.name = try container.decode(String.self, forKey: .name)
+        self.name = try? container.decode(String.self, forKey: .name)
         self.valueDate = try container.decode(Date.self, forKey: .valueDate)
     }
 }
