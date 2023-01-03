@@ -52,21 +52,12 @@ class MoneyMoney: ObservableObject {
     }
     @Published public var flatCategories: [Category]?
 
-    // FIXME: Not updated automatically when isIncome changes
-    public var filteredCategories: [Category]? {
-        categories?.filter {
-            !$0.isDefault && !$0.isIncome
-        }
-    }
-
-    // FIXME: Not updated automatically when isIncome changes
     static func filtered(categories: [Category]) -> [Category] {
         return categories.filter {
             !$0.isDefault && !$0.isIncome
         }
     }
     
-    // FIXME: Not updated automatically when isIncome changes
     public var filteredFlatCategories: [Category]? {
         flatCategories?.filter {
             !$0.isDefault && !$0.isIncome

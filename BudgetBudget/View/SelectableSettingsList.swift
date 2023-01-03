@@ -23,10 +23,11 @@ struct AccountSelectableList: View {
 struct CategorySelectableList: View {
     var rootEntries: [Category]?
     var isSelectionEnabled = false
-    
+    var updateCallback: (Bool) -> () = { _ in }
+
     var body: some View {
         List(rootEntries?.filter{ !$0.isDefault } ?? [], children: \.children) {
-            ListRow(entry: $0, isSelectionEnabled: isSelectionEnabled)
+            ListRow(entry: $0, isSelectionEnabled: isSelectionEnabled, updateCallback: updateCallback)
         }
     }
 }
@@ -52,7 +53,8 @@ struct ListRow<Entry: SelectableListEntry>: View {
     // classes.
     @ObservedObject var entry: Entry
     var isSelectionEnabled = false
-    
+    var updateCallback: (Bool) -> () = { _ in }
+
     var body: some View {
         //            if entry.isGroup || entry.isPortfolio || !isSelectable {
         if !entry.isSelectable || !isSelectionEnabled {
@@ -60,7 +62,7 @@ struct ListRow<Entry: SelectableListEntry>: View {
         } else {
             Toggle(isOn: $entry.isSelected) {
                 ListRowContent(entry: entry)
-            }
+            }.onChange(of: entry.isSelected, perform: updateCallback)
         }
     }
     
