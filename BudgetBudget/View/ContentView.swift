@@ -14,7 +14,7 @@ struct ContentView: View {
 
     // Ordered Set would be better (no duplication), but is not in std.
     // Could use https://github.com/apple/swift-collections/blob/main/Documentation/OrderedSet.md
-    @State var displayedMonthIDs: [String] = [Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID/*, Date().nextMonth().nextMonth().monthID*/]
+    @State var displayedMonthIDs: [String] = [Date().monthID]// = [Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID/*, Date().nextMonth().nextMonth().monthID*/]
     @State var selectedDate: String
     
     init(moneymoney: MoneyMoney, budget: Budget, selectedDate: String) {
@@ -42,6 +42,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(moneymoney: MoneyMoney(), budget: Budget(), selectedDate: Date().monthID)
+        ContentView(moneymoney: MoneyMoney(settings: Budget.Settings()), budget: Budget(), selectedDate: Date().monthID)
     }
 }

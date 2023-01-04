@@ -94,7 +94,7 @@ struct CategoryList: View {
 
 
 struct CategoryList_Previews: PreviewProvider {
-    static var moneymoney = MoneyMoney()
+    static var moneymoney = MoneyMoney(settings: Budget.Settings())
 
     static var previews: some View {
         CategoryList(categories: moneymoney.categories).onAppear {

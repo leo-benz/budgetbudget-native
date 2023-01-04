@@ -46,6 +46,10 @@ struct BudgetView: View {
                         let colCount = displayedMonthIDs.count
                         let newWidth = Int(newSize.width)
 
+                        guard colCount > 0 else {
+                            return
+                        }
+                        
                         if (newWidth / colCount) < 325 && colCount > 1 {
                             _ = displayedMonthIDs.popLast()
                         } else if (newWidth / (colCount + 1)) > 325 {
@@ -81,6 +85,6 @@ struct WidthPreferenceKey: PreferenceKey {
 
 struct BudgetView_Previews: PreviewProvider {
     static var previews: some View {
-        BudgetView(moneymoney: MoneyMoney(), budget: Budget(), displayedMonthIDs: .constant([Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID]))
+        BudgetView(moneymoney: MoneyMoney(settings: Budget.Settings()), budget: Budget(), displayedMonthIDs: .constant([Date().previousMonth().monthID, Date().monthID, Date().nextMonth().monthID]))
     }
 }

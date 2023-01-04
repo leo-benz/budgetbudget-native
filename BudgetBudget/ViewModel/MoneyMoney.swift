@@ -14,6 +14,8 @@ import Carbon
 
 class MoneyMoney: ObservableObject {
 
+    var settings: Budget.Settings
+    
     private static let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: MoneyMoney.self))
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
@@ -64,8 +66,8 @@ class MoneyMoney: ObservableObject {
         }
     }
 
-    init() {
-
+    init(settings: Budget.Settings) {
+        self.settings = settings
     }
 
     public func sync() {
@@ -103,13 +105,23 @@ class MoneyMoney: ObservableObject {
 #if os(OSX)
         os_signpost(.begin, log: Self.log, name: "Sync Transactions")
         let decoder = PropertyListDecoder()
-        let selectedAccounts = flatAccounts!.filter{
+        
+        guard let flatAccounts = flatAccounts else {
+            print("Tried to sync transactions with no accounts available. Aborting.")
+            return
+        }
+        
+        let selectedAccounts = flatAccounts.filter{
             return $0.isSelected
         }
         Self.logger.notice("Sync Transactions for \(selectedAccounts)")
         for account in selectedAccounts {
-            // TODO: Replace with start date defined in budget settings
-            let transactionsXML = executeAppleScript("exportTransactions", handler: "exportTransactions", parameters: [account.name, "2022-01-01"]).stringValue!
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+    
+            print("Sync from: \(settings.startDate) to string: \(dateFormatter.string(from: settings.startDate))")
+            let transactionsXML = executeAppleScript("exportTransactions", handler: "exportTransactions", parameters: [account.name, dateFormatter.string(from: settings.startDate)]).stringValue!
+    
             do {
                 if transactionWrappers[account] == nil {
                     transactionWrappers[account] = TransactionWrapper(creator: "", transactions: [])
