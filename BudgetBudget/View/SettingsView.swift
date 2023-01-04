@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var moneymoney: MoneyMoney
     @Binding var settings: Budget.Settings
-
+    
     @State private var name = ""
 
     var body: some View {
@@ -18,7 +18,7 @@ struct SettingsView: View {
             Form {
                 TextField("Name", text: $name)
                 TextField("Currency", text: $settings.currency)
-                DatePicker("Start Date", selection: $settings.startDate, displayedComponents: .date)
+                DatePicker("Start Date", selection: $settings.startDate, in: ...Date() ,displayedComponents: .date)
                 HStack(spacing: 0) {
                     Text("Starting Balance")
                     TextField("", value: $settings.startBalance, format: .currency(code: settings.currency))

@@ -14,15 +14,20 @@ class Budget: ObservableObject {
     @Published var name: String = "Default"
 
     @Published var settings: Settings
-    @Published var moneymoney = MoneyMoney()
+    @Published var moneymoney: MoneyMoney!
 
     private var monthlyBudgets: [String: MonthlyBudget] = [:]
     private var subscribers: Set<AnyCancellable> = []
 
     init() {
         settings = UserDefaults.standard.codable(forKey: "Settings") ?? Settings()
-        $settings.sink { setting in
-            UserDefaults.standard.set(value: setting, forKey: "Settings")
+        print("Init settings: \(settings)")
+        moneymoney = MoneyMoney(settings: settings)
+        $settings.sink { [self] settings in
+            print("Settings sink: \(settings)")
+            UserDefaults.standard.set(value: settings, forKey: "Settings")
+            moneymoney.settings = settings
+            moneymoney.syncTransactions()
         }.store(in: &subscribers)
     }
 
@@ -50,11 +55,5 @@ class Budget: ObservableObject {
         var startBalance = 0.0
         var currency = "EUR"
         var ignoreUncategorized = false
-//        var incomeCategories = [IncomeCategory]()
-
-//        struct IncomeCategory {
-//            var category: Category
-//            var availableIn: Int
-//        }
     }
 }
