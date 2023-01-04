@@ -27,7 +27,9 @@ class Budget: ObservableObject {
             print("Settings sink: \(settings)")
             UserDefaults.standard.set(value: settings, forKey: "Settings")
             moneymoney.settings = settings
-            moneymoney.syncTransactions()
+            DispatchQueue.main.async {
+                moneymoney.syncTransactions()
+            }
         }.store(in: &subscribers)
     }
 
