@@ -8,15 +8,36 @@
 import SwiftUI
 
 struct BudgetColumn: View {
-    @ObservedObject var budget: MonthlyBudget
+    @ObservedObject var monthlyBudget: MonthlyBudget
+
+    @Binding var editingColumn: String
+    @State private var isEditing: Bool = false
+    @FocusState private var focusedCategory: UUID?
 
     var body: some View {
         VStack(spacing: 0) {
-            ForEach(budget.budgets) { budget in
-                BudgetRow(categoryBudget: budget, category: budget.category)
+            ForEach(monthlyBudget.budgets) { budget in
+                BudgetRow(categoryBudget: budget, category: budget.category, focusedCategory: _focusedCategory, editing: $isEditing, focusNextCategory: { currentCategory in
+                    let currentIndex = monthlyBudget.budgets.firstIndex(of: currentCategory)
+                    guard var currentIndex = currentIndex else {
+                        return
+                    }
+                    repeat {
+                        currentIndex = (currentIndex + 1) % monthlyBudget.budgets.count
+                    } while (!monthlyBudget.budgets[currentIndex].category.isVisible || monthlyBudget.budgets[currentIndex].category.isGroup)
+                    focusedCategory = monthlyBudget.budgets[currentIndex].category.id
+                })
+                    .onChange(of: isEditing) { newValue in
+                        if newValue {
+                            editingColumn = monthlyBudget.date.monthID
+                        }
+                    }
+                    .onChange(of: editingColumn) { newValue in
+                        isEditing = (newValue == monthlyBudget.date.monthID)
+                    }
             }
             Spacer()
-        }
+        }.focusSection()
     }
 
     struct BudgetRow: View {
@@ -24,8 +45,14 @@ struct BudgetColumn: View {
         @ObservedObject var category: Category
 
         @State private var hovered = false
-        @FocusState private var isFocused: Bool
-        @State private var editing = false
+        @FocusState var focusedCategory: UUID?
+        @Binding var editing: Bool
+        
+        var focusNextCategory: (CategoryBudget) -> ()
+        
+        var isFocused: Bool {
+            focusedCategory == category.id
+        }
         
         private let numberFormatter: NumberFormatter = {
             let formatter = NumberFormatter()
@@ -53,27 +80,25 @@ struct BudgetColumn: View {
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                                 .textFieldStyle(.plain).multilineTextAlignment(.trailing)
                                 .onHover { hovered = $0 }
-                                .focused($isFocused)
+                                .focused($focusedCategory, equals: category.id)
                                 .border(isFocused ? .blue : hovered ? Color.secondary : .clear)
                                 .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
                                 .onSubmit {
-                                    editing = false
-                                }
-                                .onChange(of: isFocused) { newValue in
-                                    editing = isFocused
+                                    focusNextCategory(categoryBudget)
                                 }
                         } else {
                             Button {
                                 editing = true
-                                isFocused = true
+                                focusedCategory = category.id
                             } label: {
                                 Text("\(categoryBudget.budgeted, specifier: "%.2f")")
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                                     .onHover { hovered = $0 }
-                                    .focused($isFocused)
+                                    .focused($focusedCategory, equals: category.id)
                                     .border(isFocused ? .blue : hovered ? Color.secondary : .clear)
                                     .foregroundColor(categoryBudget.budgeted == 0 ? .secondary : .primary)
-                            }.buttonStyle(.plain)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     Text("\(categoryBudget.spend, specifier: "%.2f")")
@@ -99,7 +124,7 @@ struct BudgetColumn: View {
 struct BudgetColumn_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            BudgetColumn(budget: MonthlyBudget(date: Date(), budget: Budget()))
+            BudgetColumn(monthlyBudget: MonthlyBudget(date: Date(), budget: Budget()), editingColumn: .constant(Date().monthID))
         }.frame(width: 300)
     }
 }

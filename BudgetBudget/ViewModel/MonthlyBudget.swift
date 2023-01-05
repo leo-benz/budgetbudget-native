@@ -10,7 +10,7 @@ import Combine
 import os
 
 class MonthlyBudget: ObservableObject, CustomDebugStringConvertible {
-    var date: Date
+    @Published var date: Date
     @Published var budgets: [CategoryBudget] = []
     @Published var budget: Budget
     
