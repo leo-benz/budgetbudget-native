@@ -13,6 +13,8 @@ struct BudgetView: View {
 
     @State private var categoryListWidth: CGFloat = 200
     
+    @State private var editingColumn: String = ""
+    
     @Binding var displayedMonthIDs: [String]
 
     var body: some View {
@@ -38,7 +40,7 @@ struct BudgetView: View {
                         Divider()
                         ForEach(displayedMonthIDs, id: \.self) { monthID in
                             Divider()
-                            BudgetColumn(budget: budget.budgetFor(date: Date(monthID))!).frame(maxWidth: .infinity)
+                            BudgetColumn(monthlyBudget: budget.budgetFor(date: Date(monthID))!, editingColumn: $editingColumn).frame(maxWidth: .infinity)
                         }
                     }
                     .frame(minHeight: scrollGeo.size.height)
